@@ -1,0 +1,25 @@
+
+import java.util.ArrayList;
+
+public class MatchDirectory {
+
+    ArrayList<Match> matchArrayList;
+
+    public MatchDirectory(){
+        this.matchArrayList = new ArrayList<>();
+    }
+
+    public void deleteMatch(Match match){
+        matchArrayList.remove(match);
+    }
+
+    public Match createMatch(String teamA, String teamB, String date, String location){
+        Match match = new Match();
+        match.setTeamA(teamA);
+        match.setTeamB(teamB);
+        match.setDate(date);
+        match.setLocation(location);
+        matchArrayList.add(match);
+        return match;
+    }
+}
