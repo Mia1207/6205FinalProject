@@ -24,4 +24,8 @@ public class MatchDirectory {
         matchArrayList.add(match);
         return match;
     }
+
+    public ArrayList<Match> getMatchArrayList() {
+        return matchArrayList;
+    }
 }
