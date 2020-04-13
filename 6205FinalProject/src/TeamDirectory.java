@@ -11,10 +11,9 @@ public class TeamDirectory {
         return teamArrayList;
     }
 
-    public Team createTeam(String name, int number){
+    public Team createTeam(String name){
         Team team = new Team();
         team.setName(name);
-        team.setNumberOfPlayers(number);
         teamArrayList.add(team);
         return team;
     }

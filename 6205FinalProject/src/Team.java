@@ -2,7 +2,6 @@
 public class Team {
 
     String name;
-    int numberOfPlayers;
     float point;
 
     public Team(){
@@ -15,14 +14,6 @@ public class Team {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public int getNumberOfPlayers() {
-        return numberOfPlayers;
-    }
-
-    public void setNumberOfPlayers(int numberOfPlayers) {
-        this.numberOfPlayers = numberOfPlayers;
     }
 
     public float getPoint() {

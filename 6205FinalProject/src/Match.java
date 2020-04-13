@@ -8,6 +8,7 @@ public class Match {
      * @param location the match location to determine who is home team.
      * @param probabiltiy the probability A will beat B.
      */
+    private  int matchID;
     private String teamA;
     private String teamB;
     private String date;
@@ -16,6 +17,14 @@ public class Match {
 
     public Match(){
 
+    }
+
+    public int getMatchID() {
+        return matchID;
+    }
+
+    public void setMatchID(int matchID) {
+        this.matchID = matchID;
     }
 
     public void setTeamA(String teamA){

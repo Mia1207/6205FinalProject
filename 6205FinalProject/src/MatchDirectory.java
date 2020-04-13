@@ -15,7 +15,7 @@ public class MatchDirectory {
         matchArrayList.remove(match);
     }
 
-    public Match createMatch(String teamA, String teamB, String date, String location){
+    public Match createMatch(int ID, String teamA, String teamB, String date, String location){
         Match match = new Match();
         match.setTeamA(teamA);
         match.setTeamB(teamB);
