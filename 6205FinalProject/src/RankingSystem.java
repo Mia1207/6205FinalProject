@@ -14,7 +14,7 @@ public class RankingSystem {
 
     MatchDirectory matchDirectory;
     TeamDirectory teamDirectory;
-    private static String xls = "main\\resources\\20192020.csv";
+    private static String xls = "/Users/lizhiwei/Documents/GitHub/6205FinalProject/6205FinalProject/main/resources/20192020.csv";
 
     public RankingSystem(){
         this.matchDirectory = new MatchDirectory();
