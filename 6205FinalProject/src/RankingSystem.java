@@ -27,7 +27,7 @@ public class RankingSystem {
         long start2003 = System.currentTimeMillis();
         List<Match> list2003 = ReadExcel.readFromXLS2003(xls);
         for (Match match : list2003) {
-            System.out.println(match);
+            System.out.println(match.getTeamA());
         }
     }
 

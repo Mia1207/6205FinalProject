@@ -42,4 +42,8 @@ public class Match {
     public void setLocation(String location){
         this.location = location;
     }
+
+    public String getTeamA() {
+        return teamA;
+    }
 }
