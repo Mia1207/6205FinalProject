@@ -1,8 +1,11 @@
 
 public class Team {
 
-    String name;
-    float point;
+    private String name;
+    private int totalGoals = 0;
+    private float point;
+    private int playedGame = 0;
+    private  int theNumberofGamesPlayed;
 
     public Team(){
 
@@ -22,5 +25,32 @@ public class Team {
 
     public void setPoint(float point) {
         this.point = point;
+    }
+
+    public void updateTimes(){
+        playedGame++;
+        theNumberofGamesPlayed = playedGame;
+    }
+
+    public int getTheNumberofGamesPlayed() {
+        return theNumberofGamesPlayed;
+    }
+
+    public int getTotalGoals() {
+        return totalGoals;
+    }
+
+    public void setTotalGoals(int goal) {
+        totalGoals += goal;
+    }
+
+    @Override
+    public String toString() {
+        return "Team{" +
+                "name='" + name + '\'' +
+                ", totalGoals=" + totalGoals +
+                ", played Game=" + theNumberofGamesPlayed +
+                ", point=" + point +
+                '}';
     }
 }

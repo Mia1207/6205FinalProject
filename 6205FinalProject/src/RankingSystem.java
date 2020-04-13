@@ -6,18 +6,37 @@ import java.util.*;
 public class RankingSystem {
 
     public static void main(String[] args) {
-        String filePath = "/Users/huaruilu/Documents/GitHub/6205FinalProject/6205FinalProject/main/resources/2019-2020.csv";
         MatchDirectory matchDirectory = new MatchDirectory();
         TeamDirectory teamDirectory = new TeamDirectory();
+        initializaData(matchDirectory,teamDirectory);
+//        for (Match match:matchDirectory.getMatchArrayList()){
+//            System.out.println(match);
+//        }
+        calTeamInfo(matchDirectory,teamDirectory);;
+        for (Team team :teamDirectory.getTeamArrayList()){
+            System.out.println(team);
+        }
+    }
+
+    public static void initializaData(MatchDirectory matchDirectory, TeamDirectory teamDirectory){
+        String filePath = "/Users/huaruilu/Documents/GitHub/6205FinalProject/6205FinalProject/main/resources/2019-2020.csv";
         DataReader dataReader = new DataReader();
         RankingSystem rankingSystem = new RankingSystem();
         matchDirectory.matchArrayList = dataReader.readMatchFile(filePath);
-        for (Match match:matchDirectory.getMatchArrayList()){
-            System.out.println(match);
-        }
         rankingSystem.teamInformation(teamDirectory);
-        for (Team team: teamDirectory.getTeamArrayList()){
-            System.out.println(team.getName());
+    }
+
+    public static void calTeamInfo(MatchDirectory matchDirectory, TeamDirectory teamDirectory){
+        for(Team team:teamDirectory.getTeamArrayList()) {
+            for (Match match : matchDirectory.getMatchArrayList()) {
+                if (match.getHomeTeam().equals(team.getName())) {
+                    team.setTotalGoals(match.getHomeScore());
+                    team.updateTimes();
+                } else if (match.getAwayTeam().equals(team.getName())) {
+                    team.setTotalGoals(match.getAwayScore());
+                    team.updateTimes();
+                }
+            }
         }
     }
 

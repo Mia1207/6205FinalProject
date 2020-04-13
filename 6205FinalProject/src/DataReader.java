@@ -27,6 +27,12 @@ public class DataReader {
                 match.setHomeTeam(csvList.get(row)[3]);
                 match.setDate(csvList.get(row)[1]);
                 match.setAwayTeam(csvList.get(row)[4]);
+                match.setAF(Integer.valueOf(csvList.get(row)[17]));
+                match.setAST(Integer.valueOf(csvList.get(row)[15]));
+                match.setAwayScore(Integer.valueOf(csvList.get(row)[6]));
+                match.setHF(Integer.valueOf(csvList.get(row)[16]));
+                match.setHST(Integer.valueOf(csvList.get(row)[14]));
+                match.setHomeScore(Integer.valueOf(csvList.get(row)[5]));
                 matchArrayList.add(match);
             }
 
