@@ -1,3 +1,4 @@
+import java.text.DecimalFormat;
 
 public class Team {
 
@@ -6,9 +7,19 @@ public class Team {
     private float point;
     private int playedGame = 0;
     private  int theNumberofGamesPlayed;
+    private float averageGoals;
+    private int totalFouls = 0;
+    private int totalSuccDefense = 0;
+    private int temp = 0;
+    private int temp1 = 0;
+    private static int count =0;
+    private int teamID;
+    private float averageFouls;
+    private float averageDefense;
 
     public Team(){
-
+        teamID = count;
+        count++;
     }
 
     public String getName() {
@@ -32,6 +43,34 @@ public class Team {
         theNumberofGamesPlayed = playedGame;
     }
 
+    public int getTotalSuccDefense() {
+        return totalSuccDefense;
+    }
+
+    public void TotalSuccDefense(int SuccDefense) {
+        temp1 += SuccDefense;
+        totalSuccDefense = temp1;
+    }
+
+    public float getAverageGoals() {
+        return averageGoals;
+    }
+
+    public int getTotalFouls() {
+        return totalFouls;
+    }
+
+    public void setTotalFouls(int Fouls) {
+        temp += Fouls;
+        totalFouls = temp;
+    }
+
+    public void setAverageGoals() {
+        DecimalFormat df = new DecimalFormat("0.###");
+        String goal = df.format((float) totalGoals / theNumberofGamesPlayed);
+        this.averageGoals = Float.valueOf(goal);
+    }
+
     public int getTheNumberofGamesPlayed() {
         return theNumberofGamesPlayed;
     }
@@ -44,11 +83,35 @@ public class Team {
         totalGoals += goal;
     }
 
+    public float getAverageDefense() {
+        return averageDefense;
+    }
+
+    public float getAverageFouls() {
+        return averageFouls;
+    }
+
+    public void setAverageDefense() {
+        DecimalFormat df = new DecimalFormat("0.###");
+        String goal = df.format((float) totalSuccDefense / theNumberofGamesPlayed);
+        averageDefense= Float.valueOf(goal);
+    }
+
+    public void setAverageFouls() {
+        DecimalFormat df = new DecimalFormat("0.###");
+        String goal = df.format((float) totalFouls / theNumberofGamesPlayed);
+        averageFouls= Float.valueOf(goal);
+    }
+
     @Override
     public String toString() {
         return "Team{" +
-                "name='" + name + '\'' +
+                "Team ID=" + teamID +
+                ", name='" + name + '\'' +
                 ", totalGoals=" + totalGoals +
+                ", Average Goal=" + averageGoals +
+                ", Average fouls commited=" + averageFouls +
+                ", Average successful defense=" + averageDefense +
                 ", played Game=" + theNumberofGamesPlayed +
                 ", point=" + point +
                 '}';

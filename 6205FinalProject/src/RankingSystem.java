@@ -12,7 +12,8 @@ public class RankingSystem {
 //        for (Match match:matchDirectory.getMatchArrayList()){
 //            System.out.println(match);
 //        }
-        calTeamInfo(matchDirectory,teamDirectory);;
+        calTeamInfo(matchDirectory,teamDirectory);
+        calTeamPoint(matchDirectory, teamDirectory);
         for (Team team :teamDirectory.getTeamArrayList()){
             System.out.println(team);
         }
@@ -32,11 +33,26 @@ public class RankingSystem {
                 if (match.getHomeTeam().equals(team.getName())) {
                     team.setTotalGoals(match.getHomeScore());
                     team.updateTimes();
+                    team.setTotalFouls(match.getHF());
+                    team.TotalSuccDefense(match.getAST() - match.getAwayScore());
                 } else if (match.getAwayTeam().equals(team.getName())) {
                     team.setTotalGoals(match.getAwayScore());
                     team.updateTimes();
+                    team.setTotalFouls(match.getAF());
+                    team.TotalSuccDefense(match.getHST() - match.getHomeScore());
                 }
             }
+            team.setAverageGoals();
+            team.setAverageDefense();
+            team.setAverageFouls();
+        }
+    }
+
+    public static void calTeamPoint(MatchDirectory matchDirectory,TeamDirectory teamDirectory) {
+        for (Team team : teamDirectory.getTeamArrayList()) {
+            float temp;
+            temp = (float) (team.getTotalGoals()*2 + 1.5*team.getTotalSuccDefense() - 0.05 * team.getTotalFouls());
+            team.setPoint(temp);
         }
     }
 
