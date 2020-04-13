@@ -15,14 +15,12 @@ public class MatchDirectory {
         matchArrayList.remove(match);
     }
 
-    public Match createMatch(int ID, String teamA, String teamB, String date, String location){
-        Match match = new Match();
-        match.setTeamA(teamA);
-        match.setTeamB(teamB);
-        match.setDate(date);
-        match.setLocation(location);
+    public void addMatch(Match match){
         matchArrayList.add(match);
-        return match;
+    }
+
+    public void setMatchArrayList(ArrayList<Match> matchArrayList) {
+        this.matchArrayList = matchArrayList;
     }
 
     public ArrayList<Match> getMatchArrayList() {

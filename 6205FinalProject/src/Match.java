@@ -9,14 +9,15 @@ public class Match {
      * @param probabiltiy the probability A will beat B.
      */
     private  int matchID;
-    private String teamA;
-    private String teamB;
+    private String homeTeam;
+    private String awayTeam;
     private String date;
-    private String location;
     private float probability;
+    private static int count = 1;
 
     public Match(){
-
+        matchID = count;
+        count++;
     }
 
     public int getMatchID() {
@@ -27,23 +28,26 @@ public class Match {
         this.matchID = matchID;
     }
 
-    public void setTeamA(String teamA){
-        this.teamA = teamA;
-    }
-
-    public void setTeamB(String teamB){
-        this.teamB = teamB;
-    }
-
     public void setDate(String date){
         this.date = date;
     }
 
-    public void setLocation(String location){
-        this.location = location;
+    public void setHomeTeam(String homeTeam) {
+        this.homeTeam = homeTeam;
     }
 
-    public String getTeamA() {
-        return teamA;
+    public void setAwayTeam(String awayTeam) {
+        this.awayTeam = awayTeam;
+    }
+
+
+    @Override
+    public java.lang.String toString() {
+        return "Match{" +
+                "matchID=" + matchID +
+                ", homeTeam='" + homeTeam + '\'' +
+                ", awayTeam='" + awayTeam + '\'' +
+                ", date='" + date + '\'' +
+                ", probability=" + probability;
     }
 }

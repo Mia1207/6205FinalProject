@@ -1,0 +1,42 @@
+import com.csvreader.CsvReader;
+import java.nio.charset.Charset;
+import java.util.ArrayList;
+
+
+public class DataReader {
+
+    public DataReader(){
+
+    }
+
+    public ArrayList<Match> readMatchFile(String filePath){
+        ArrayList<Match> matchArrayList = new ArrayList<>();
+        try {
+            ArrayList<String[]> csvList = new ArrayList<String[]>();
+            CsvReader reader = new CsvReader(filePath,',', Charset.forName("GBK"));
+            reader.readHeaders(); //跳过表头,不跳可以注释掉
+
+            while(reader.readRecord()){
+                csvList.add(reader.getValues()); //按行读取，并把每一行的数据添加到list集合
+            }
+            reader.close();
+
+            for(int row=0;row<csvList.size();row++){
+                //打印每一行的数据
+                Match match = new Match();
+                match.setHomeTeam(csvList.get(row)[3]);
+                match.setDate(csvList.get(row)[1]);
+                match.setAwayTeam(csvList.get(row)[4]);
+                matchArrayList.add(match);
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return matchArrayList;
+    }
+
+
+
+}
+
