@@ -34,6 +34,10 @@ public class Match {
         count++;
     }
 
+    public int getMatchID() {
+        return matchID;
+    }
+
     public void setDate(String date){
         this.date = date;
     }

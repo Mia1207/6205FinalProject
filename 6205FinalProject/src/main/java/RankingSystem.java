@@ -17,17 +17,22 @@ public class RankingSystem {
         calTeamInfo(matchDirectory,teamDirectory);
         calTeamPoint(matchDirectory, teamDirectory);
         ArrayList<Team> rankingResult = sortHelper.calRanking(teamDirectory);
-        for (int i = 0; i<teamDirectory.getTeamArrayList().size(); i++){
-            System.out.println(rankingResult.get(i));
-        }
-        ArrayList<Match> futureMatch = futureMatchDirectory.getFutureMatch(matchDirectory,teamDirectory);
-//        for (Match match:futureMatch){
-//            System.out.println(match);
+//        for (int i = 0; i<teamDirectory.getTeamArrayList().size(); i++){
+//            System.out.println(rankingResult.get(i));
 //        }
+        ArrayList<Match> futureMatch = futureMatchDirectory.getFutureMatch(matchDirectory,teamDirectory);
+        System.out.println(futureMatch.size());
+        float[][] u = futureMatchDirectory.predictForGD(futureMatch,teamDirectory);
+        for(int i=0; i<u.length; i++){
+            for(int j=0; j<u[i].length; j++){
+                System.out.print(u[i][j] +" ");
+            }
+            System.out.println();
+        }
     }
 
     public static void initializaData(MatchDirectory matchDirectory, TeamDirectory teamDirectory){
-        String filePath = "/Users/lizhiwei/Documents/GitHub/6205FinalProject/6205FinalProject/main/resources/2019-2020.csv";
+        String filePath = "/Users/huaruilu/Documents/GitHub/6205FinalProject/6205FinalProject/main/resources/2019-2020.csv";
         DataReader dataReader = new DataReader();
         RankingSystem rankingSystem = new RankingSystem();
         matchDirectory.matchArrayList = dataReader.readMatchFile(filePath);
@@ -40,6 +45,7 @@ public class RankingSystem {
                 if (match.getHomeTeam().equals(team.getName())) {
                     team.setTotalGoals(match.getHomeScore());
                     team.updateTimes();
+                    team.addTotalShot(match.getHST());
                     team.setTotalFouls(match.getHF());
                     team.addRivalAtHome(match.getAwayTeam());
                     team.setGD(match.getHomeScore()-match.getAwayScore());
@@ -47,6 +53,7 @@ public class RankingSystem {
                 } else if (match.getAwayTeam().equals(team.getName())) {
                     team.setTotalGoals(match.getAwayScore());
                     team.updateTimes();
+                    team.addTotalShot(match.getAST());
                     team.setGD(match.getAwayScore()-match.getHomeScore());
                     team.setTotalFouls(match.getAF());
                     team.TotalSuccDefense(match.getHST() - match.getHomeScore());

@@ -23,4 +23,21 @@ public class FutureMatchDirectory {
         return futureMatch;
     }
 
+    public float[][] predictForGD(ArrayList<Match> futureMatch, TeamDirectory teamDirectory){
+        float[][] u = new float[92][2];
+        for(Match match:futureMatch){
+            for(Team team:teamDirectory.getTeamArrayList()){
+                if(team.getName().equals(match.getHomeTeam())){
+                    for(Team team1:teamDirectory.getTeamArrayList()){
+                        if (team1.getName().equals(match.getAwayTeam())){
+                            u[futureMatch.indexOf(match)][0] = (float) (team.getAverageShot() - team1.getAverageDefense());
+                            u[futureMatch.indexOf(match)][1] = (float) (team1.getAverageShot() - team.getAverageDefense());
+                        }
+                    }
+                }
+            }
+        }
+        return u;
+    }
+
 }

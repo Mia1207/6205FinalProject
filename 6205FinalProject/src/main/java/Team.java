@@ -5,7 +5,7 @@ public class Team {
 
     private String name;
     private int totalGoals = 0;
-    private double point;
+    private float point;
     private int playedGame = 0;
     private  int theNumberofGamesPlayed;
     private float averageGoals;
@@ -19,12 +19,24 @@ public class Team {
     private float averageDefense;
     private Team rival;
     private int GD;
+    private double totalShot = 0;
+    private double averageShot = 0;
+
     private ArrayList<String> rivalAtHome;
 
     public Team(){
         teamID = count;
         count++;
         rivalAtHome = new ArrayList<>();
+    }
+
+    public void addTotalShot(double shot){
+        this.totalShot += shot;
+    }
+
+    public Double getAverageShot(){
+        this.averageShot = totalShot/getTheNumberofGamesPlayed();
+        return averageShot;
     }
 
     public String getName() {
@@ -51,7 +63,7 @@ public class Team {
         return point;
     }
 
-    public void setPoint(double point) {
+    public void setPoint(float point) {
         this.point += point;
     }
 
