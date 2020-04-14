@@ -8,14 +8,17 @@ public class RankingSystem {
     public static void main(String[] args) {
         MatchDirectory matchDirectory = new MatchDirectory();
         TeamDirectory teamDirectory = new TeamDirectory();
+        sortHelper sortHelper = new sortHelper();
         initializaData(matchDirectory,teamDirectory);
 //        for (Match match:matchDirectory.getMatchArrayList()){
 //            System.out.println(match);
 //        }
         calTeamInfo(matchDirectory,teamDirectory);
         calTeamPoint(matchDirectory, teamDirectory);
-        for (Team team :teamDirectory.getTeamArrayList()){
-            System.out.println(team);
+        ArrayList<Team> rankingResult = new ArrayList<>();
+        rankingResult = sortHelper.calRanking(teamDirectory);
+        for (int i = 0; i<teamDirectory.getTeamArrayList().size(); i++){
+            System.out.println(rankingResult.get(i));
         }
     }
 
