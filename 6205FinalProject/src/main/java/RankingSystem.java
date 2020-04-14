@@ -27,7 +27,7 @@ public class RankingSystem {
     }
 
     public static void initializaData(MatchDirectory matchDirectory, TeamDirectory teamDirectory){
-        String filePath = "/Users/huaruilu/Documents/GitHub/6205FinalProject/6205FinalProject/main/resources/2019-2020.csv";
+        String filePath = "/Users/lizhiwei/Documents/GitHub/6205FinalProject/6205FinalProject/main/resources/2019-2020.csv";
         DataReader dataReader = new DataReader();
         RankingSystem rankingSystem = new RankingSystem();
         matchDirectory.matchArrayList = dataReader.readMatchFile(filePath);
