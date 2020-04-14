@@ -4,7 +4,7 @@ public class Team {
 
     private String name;
     private int totalGoals = 0;
-    private float point;
+    private double point;
     private int playedGame = 0;
     private  int theNumberofGamesPlayed;
     private float averageGoals;
@@ -16,6 +16,7 @@ public class Team {
     private int teamID;
     private float averageFouls;
     private float averageDefense;
+    private Team rival;
 
     public Team(){
         teamID = count;
@@ -26,16 +27,38 @@ public class Team {
         return name;
     }
 
+    public void setRival(Team rival) {
+        this.rival = rival;
+    }
+
+    public Team getRival() {
+        return rival;
+    }
+
     public void setName(String name) {
         this.name = name;
     }
 
-    public float getPoint() {
+    public double getPoint() {
         return point;
     }
 
-    public void setPoint(float point) {
-        this.point = point;
+    public void setPoint(double point) {
+        this.point += point;
+    }
+
+    public void addPoint(double result){
+        point += result;
+        DecimalFormat df = new DecimalFormat("0.##");
+        String goal = df.format((float)point);
+        this.point = Float.valueOf(goal);
+    }
+
+    public void minusPoint(double result){
+        point -= result;
+        DecimalFormat df = new DecimalFormat("0.##");
+        String goal = df.format((float)point);
+        this.point = Float.valueOf(goal);
     }
 
     public void updateTimes(){
@@ -66,7 +89,7 @@ public class Team {
     }
 
     public void setAverageGoals() {
-        DecimalFormat df = new DecimalFormat("0.###");
+        DecimalFormat df = new DecimalFormat("0.##");
         String goal = df.format((float) totalGoals / theNumberofGamesPlayed);
         this.averageGoals = Float.valueOf(goal);
     }
@@ -92,13 +115,13 @@ public class Team {
     }
 
     public void setAverageDefense() {
-        DecimalFormat df = new DecimalFormat("0.###");
+        DecimalFormat df = new DecimalFormat("0.##");
         String goal = df.format((float) totalSuccDefense / theNumberofGamesPlayed);
         averageDefense= Float.valueOf(goal);
     }
 
     public void setAverageFouls() {
-        DecimalFormat df = new DecimalFormat("0.###");
+        DecimalFormat df = new DecimalFormat("0.##");
         String goal = df.format((float) totalFouls / theNumberofGamesPlayed);
         averageFouls= Float.valueOf(goal);
     }
@@ -116,4 +139,5 @@ public class Team {
                 ", point=" + point +
                 '}';
     }
+
 }

@@ -14,6 +14,7 @@ public class Match {
      * @param AF Away Team Fouls Committed
      * @param homeScore Full Time Home Team Goals
      * @param awayScore Full Time Away Team Goals
+     * @param result Full time result
      */
     private  int matchID;
     private String homeTeam;
@@ -25,6 +26,7 @@ public class Match {
     private int AST;
     private int HF;
     private int AF;
+    private String result;
     private static int count = 1;
 
     public Match(){
@@ -42,6 +44,14 @@ public class Match {
 
     public void setAwayTeam(String awayTeam) {
         this.awayTeam = awayTeam;
+    }
+
+    public String getResult() {
+        return result;
+    }
+
+    public void setResult(String result) {
+        this.result = result;
     }
 
     public int getAF() {

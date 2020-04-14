@@ -33,6 +33,7 @@ public class DataReader {
                 match.setHF(Integer.valueOf(csvList.get(row)[16]));
                 match.setHST(Integer.valueOf(csvList.get(row)[14]));
                 match.setHomeScore(Integer.valueOf(csvList.get(row)[5]));
+                match.setResult(csvList.get(row)[7]);
                 matchArrayList.add(match);
             }
 
