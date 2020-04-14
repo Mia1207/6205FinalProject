@@ -9,17 +9,21 @@ public class RankingSystem {
         MatchDirectory matchDirectory = new MatchDirectory();
         TeamDirectory teamDirectory = new TeamDirectory();
         sortHelper sortHelper = new sortHelper();
+        FutureMatchDirectory futureMatchDirectory = new FutureMatchDirectory();
         initializaData(matchDirectory,teamDirectory);
 //        for (Match match:matchDirectory.getMatchArrayList()){
 //            System.out.println(match);
 //        }
         calTeamInfo(matchDirectory,teamDirectory);
         calTeamPoint(matchDirectory, teamDirectory);
-        ArrayList<Team> rankingResult = new ArrayList<>();
-        rankingResult = sortHelper.calRanking(teamDirectory);
+        ArrayList<Team> rankingResult = sortHelper.calRanking(teamDirectory);
         for (int i = 0; i<teamDirectory.getTeamArrayList().size(); i++){
             System.out.println(rankingResult.get(i));
         }
+        ArrayList<Match> futureMatch = futureMatchDirectory.getFutureMatch(matchDirectory,teamDirectory);
+//        for (Match match:futureMatch){
+//            System.out.println(match);
+//        }
     }
 
     public static void initializaData(MatchDirectory matchDirectory, TeamDirectory teamDirectory){
@@ -37,10 +41,13 @@ public class RankingSystem {
                     team.setTotalGoals(match.getHomeScore());
                     team.updateTimes();
                     team.setTotalFouls(match.getHF());
+                    team.addRivalAtHome(match.getAwayTeam());
+                    team.setGD(match.getHomeScore()-match.getAwayScore());
                     team.TotalSuccDefense(match.getAST() - match.getAwayScore());
                 } else if (match.getAwayTeam().equals(team.getName())) {
                     team.setTotalGoals(match.getAwayScore());
                     team.updateTimes();
+                    team.setGD(match.getAwayScore()-match.getHomeScore());
                     team.setTotalFouls(match.getAF());
                     team.TotalSuccDefense(match.getHST() - match.getHomeScore());
                 }
@@ -52,41 +59,51 @@ public class RankingSystem {
     }
 
     public static void calTeamPoint(MatchDirectory matchDirectory,TeamDirectory teamDirectory) {
+        int count =0;
         for (Match match:matchDirectory.getMatchArrayList()) {
             if (match.getResult().equals("H")) {
                 for (Team team1 : teamDirectory.getTeamArrayList()) {
                     if (team1.getName().equals(match.getHomeTeam())) {
-                        team1.addPoint( 0.75);
-                    }
-                    if (team1.getName().equals(match.getAwayTeam())) {
-                        team1.minusPoint(0.75);
+                        for(Team team2:teamDirectory.getTeamArrayList()){
+                            if(team2.getName().equals(match.getAwayTeam())){
+                                count ++;
+                                team1.addPoint( (float)(team2.getPoint() +1)/team1.getTheNumberofGamesPlayed());
+                                team2.addPoint((float)(team1.getPoint()-1)/team2.getTheNumberofGamesPlayed());
+                            }
+                        }
                     }
                 }
-            }
-            if (match.getResult().equals("D")){
+            }else if (match.getResult().equals("D")){
                 for (Team team1 : teamDirectory.getTeamArrayList()) {
                     if (team1.getName().equals(match.getHomeTeam())) {
-                        team1.addPoint(0.4);
-                    }
-                    if (team1.getName().equals(match.getAwayTeam())) {
-                        team1.addPoint(0.6);
+                        for(Team team2:teamDirectory.getTeamArrayList()){
+                            if(team2.getName().equals(match.getAwayTeam())) {
+                                count++;
+                                team1.addPoint((float) (team2.getPoint() / team1.getTheNumberofGamesPlayed()));
+                                team2.addPoint((float) (team1.getPoint() / team2.getTheNumberofGamesPlayed()));
+                            }
+                        }
                     }
                 }
             }
             if (match.getResult().equals("A")){
                 for (Team team1 : teamDirectory.getTeamArrayList()) {
                     if (team1.getName().equals(match.getHomeTeam())) {
-                        team1.minusPoint(1.25);
-                    }
-                    if (team1.getName().equals(match.getAwayTeam())) {
-                        team1.addPoint(1.25);
+                        for(Team team2:teamDirectory.getTeamArrayList()){
+                            if(team2.getName().equals(match.getAwayTeam())) {
+                                count++;
+                                team2.addPoint((float) (team1.getPoint() + 1) / team2.getTheNumberofGamesPlayed());
+                                team1.addPoint((float) (team2.getPoint() - 1) / team1.getTheNumberofGamesPlayed());
+                            }
+                        }
                     }
                 }
             }
         }
+
         for (Team team : teamDirectory.getTeamArrayList()) {
             float temp;
-            temp = (float) (team.getPoint()*0.55 + team.getTotalGoals()*0.25 + 0.15*team.getTotalSuccDefense() - 0.05 * team.getTotalFouls());
+            temp = (float) (team.getPoint()*0.5*team.getTheNumberofGamesPlayed() + team.getGD()*0.3 + 0.05*team.getTotalGoals() + 0.05*team.getTotalSuccDefense() +0.1*team.getTotalGoals())/team.getTheNumberofGamesPlayed()*100;
             team.setPoint(temp);
         }
     }

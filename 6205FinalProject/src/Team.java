@@ -1,4 +1,5 @@
 import java.text.DecimalFormat;
+import java.util.ArrayList;
 
 public class Team {
 
@@ -17,10 +18,13 @@ public class Team {
     private float averageFouls;
     private float averageDefense;
     private Team rival;
+    private int GD;
+    private ArrayList<String> rivalAtHome;
 
     public Team(){
         teamID = count;
         count++;
+        rivalAtHome = new ArrayList<>();
     }
 
     public String getName() {
@@ -31,8 +35,12 @@ public class Team {
         this.rival = rival;
     }
 
-    public Team getRival() {
-        return rival;
+    public ArrayList<String> getRivalAtHome() {
+        return rivalAtHome;
+    }
+
+    public void addRivalAtHome(String name) {
+        this.rivalAtHome.add(name);
     }
 
     public void setName(String name) {
@@ -52,6 +60,14 @@ public class Team {
         DecimalFormat df = new DecimalFormat("0.##");
         String goal = df.format((float)point);
         this.point = Float.valueOf(goal);
+    }
+
+    public int getGD() {
+        return GD;
+    }
+
+    public void setGD(int GD) {
+        this.GD += GD;
     }
 
     public void minusPoint(double result){
@@ -131,7 +147,7 @@ public class Team {
         return "Team{" +
                 "Team ID=" + teamID +
                 ", name='" + name + '\'' +
-                ", totalGoals=" + totalGoals +
+                ", Goal Difference=" + GD +
                 ", Average Goal=" + averageGoals +
                 ", Average fouls commited=" + averageFouls +
                 ", Average successful defense=" + averageDefense +
