@@ -160,6 +160,7 @@ public class Team {
                 "Team ID=" + teamID +
                 ", name='" + name + '\'' +
                 ", Goal Difference=" + GD +
+                "， Average Shot=" + getAverageShot() +
                 ", Average Goal=" + averageGoals +
                 ", Average fouls commited=" + averageFouls +
                 ", Average successful defense=" + averageDefense +

@@ -9,10 +9,9 @@ import org.jfree.data.xy.XYSeriesCollection;
 
 public class DrawMath {
     private static  int n = 100000;
-    public static void main(String[] args) {
+
+    public void skellamDistribution(double u1, double u2,String homeName, String awayName){
         XYSeries series = new XYSeries("xySeries");
-        double u1=1.0628573;
-        double u2=1.565862;
         double sum = 0;
         for (int x = -6; x < 7; x++) {
             double a1 = 3.1415926453;
@@ -20,7 +19,7 @@ public class DrawMath {
             double result1 = getDefiniteIntegralByTrapezium(u1, u2,x, b1, a1);
             double a2 = 100000;
             double b2 = 0;
-            double result2 = getDefiniteIntegralByTrapezium(u1, u2,x, b2, a2);
+            double result2 = getDefiniteIntegralByTrapezium2(u1, u2,x, b2, a2);
             float I = (float) (((1/3.1415926453) * result1) - (((Math.sin(Math.abs(x) * 3.1415926453))/3.1415926453) * result2));
             double y = Math.exp(-(u1+u2)) * Math.pow(u1/u2,x/2) * I;
             series.add(x, y);
@@ -29,7 +28,7 @@ public class DrawMath {
         XYSeriesCollection dataset = new XYSeriesCollection();
         dataset.addSeries(series);
         JFreeChart chart = ChartFactory.createXYLineChart(
-                "Skellam Distribution", // chart title
+                homeName + " vs "+ awayName, // chart title
                 "Goal Difference of this match", // x axis label
                 "Probabiltiy Density Function", // y axis label
                 dataset, // data
@@ -39,7 +38,7 @@ public class DrawMath {
                 false // urls
         );
 
-        ChartFrame frame = new ChartFrame("my picture", chart);
+        ChartFrame frame = new ChartFrame("Skellam Distribution", chart);
         frame.pack();
         frame.setVisible(true);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -65,6 +64,15 @@ public class DrawMath {
         double sum = 0;
         for (double xi = 0; xi <= xn; xi = xi + h) {
             sum += (f1(u1,u2,x, xi) + f1(u1,u2,x,xi + h)) * h / 2;
+        }
+        return sum;
+    }
+
+    public static double getDefiniteIntegralByTrapezium2(double u1, double u2, int x, double x0, double xn) {
+        double h = Math.abs(xn - x0) / n;
+        double sum = 0;
+        for (double xi = 0; xi <= xn; xi = xi + h) {
+            sum += (f2(u1,u2,x, xi) + f2(u1,u2,x,xi + h)) * h / 2;
         }
         return sum;
     }

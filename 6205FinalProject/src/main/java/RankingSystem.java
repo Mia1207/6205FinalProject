@@ -9,6 +9,7 @@ public class RankingSystem {
         MatchDirectory matchDirectory = new MatchDirectory();
         TeamDirectory teamDirectory = new TeamDirectory();
         sortHelper sortHelper = new sortHelper();
+        DrawMath drawMath = new DrawMath();
         FutureMatchDirectory futureMatchDirectory = new FutureMatchDirectory();
         initializaData(matchDirectory,teamDirectory);
 //        for (Match match:matchDirectory.getMatchArrayList()){
@@ -21,18 +22,21 @@ public class RankingSystem {
 //            System.out.println(rankingResult.get(i));
 //        }
         ArrayList<Match> futureMatch = futureMatchDirectory.getFutureMatch(matchDirectory,teamDirectory);
-        System.out.println(futureMatch.size());
+//        System.out.println(futureMatch);
         float[][] u = futureMatchDirectory.predictForGD(futureMatch,teamDirectory);
-        for(int i=0; i<u.length; i++){
-            for(int j=0; j<u[i].length; j++){
-                System.out.print(u[i][j] +" ");
-            }
-            System.out.println();
+        int i =0;
+        for(Match match: futureMatch){
+            match.setPHS(u[i][0]);
+            match.setPAS(u[i][1]);
+            i++;
+            drawMath.skellamDistribution(match.getPHS(),match.getPAS(),match.getHomeTeam(),match.getAwayTeam());
+            System.out.println( match.getHomeTeam() + " " + match.getPHS() + "  vs "+ match.getAwayTeam() + " " +match.getPAS());
         }
+
     }
 
     public static void initializaData(MatchDirectory matchDirectory, TeamDirectory teamDirectory){
-        String filePath = "/Users/huaruilu/Documents/GitHub/6205FinalProject/6205FinalProject/main/resources/2019-2020.csv";
+        String filePath = "main/resources/2019-2020.csv";
         DataReader dataReader = new DataReader();
         RankingSystem rankingSystem = new RankingSystem();
         matchDirectory.matchArrayList = dataReader.readMatchFile(filePath);

@@ -15,13 +15,20 @@ public class Match {
      * @param homeScore Full Time Home Team Goals
      * @param awayScore Full Time Away Team Goals
      * @param result Full time result
+     * @param PHS the possible numbee of Home Score;
+     * @param PAS the possible number of Away Score;
+     * @param concedePoints Home/Away team concede one score for another;
+     * @
      */
     private  int matchID;
     private String homeTeam;
     private String awayTeam;
     private String date;
+    private String concedePoint;
     private int homeScore;
     private int awayScore;
+    private float PHS;
+    private float PAS;
     private int HST;
     private int AST;
     private int HF;
@@ -36,6 +43,14 @@ public class Match {
 
     public int getMatchID() {
         return matchID;
+    }
+
+    public void setConcedePoint(String concedePoint) {
+        this.concedePoint = concedePoint;
+    }
+
+    public String getConcedePoint() {
+        return concedePoint;
     }
 
     public void setDate(String date){
@@ -68,6 +83,22 @@ public class Match {
 
     public int getAST() {
         return AST;
+    }
+
+    public float getPAS() {
+        return PAS;
+    }
+
+    public float getPHS() {
+        return PHS;
+    }
+
+    public void setPAS(float PAS) {
+        this.PAS = PAS;
+    }
+
+    public void setPHS(float PHS) {
+        this.PHS = PHS;
     }
 
     public void setAST(int AST) {

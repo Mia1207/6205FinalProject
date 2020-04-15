@@ -32,6 +32,16 @@ public class FutureMatchDirectory {
                         if (team1.getName().equals(match.getAwayTeam())){
                             u[futureMatch.indexOf(match)][0] = (float) (team.getAverageShot() - team1.getAverageDefense());
                             u[futureMatch.indexOf(match)][1] = (float) (team1.getAverageShot() - team.getAverageDefense());
+                            while(u[futureMatch.indexOf(match)][1] < 0){
+                                u[futureMatch.indexOf(match)][0] += 1;
+                                u[futureMatch.indexOf(match)][1] += 1;
+                                match.setConcedePoint("H");
+                            }
+                            while(u[futureMatch.indexOf(match)][0] <0){
+                                u[futureMatch.indexOf(match)][1] += 1;
+                                u[futureMatch.indexOf(match)][0] += 1;
+                                match.setConcedePoint("A");
+                            }
                         }
                     }
                 }
