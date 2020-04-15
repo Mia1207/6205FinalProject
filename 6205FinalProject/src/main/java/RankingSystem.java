@@ -30,7 +30,10 @@ public class RankingSystem {
             match.setPAS(u[i][1]);
             i++;
             drawMath.skellamDistribution(match.getPHS(),match.getPAS(),match.getHomeTeam(),match.getAwayTeam());
-            System.out.println( match.getHomeTeam() + " " + match.getPHS() + "  vs "+ match.getAwayTeam() + " " +match.getPAS());
+            System.out.println( "The probabiltiy of "+match.getHomeTeam() + " win " + match.getAwayTeam()+"is " + drawMath.theProbabiltiyOfResult(match,"HW"));
+            System.out.println( "The probabiltiy of "+ match.getHomeTeam()  + " draw this match is " + drawMath.theProbabiltiyOfResult(match,"Draw"));
+            System.out.println( "The probabiltiy of " + match.getHomeTeam() + " loss this match is " + drawMath.theProbabiltiyOfResult(match,"AW"));
+            System.out.println("------------------------------------------------------------------------------------------------");
         }
 
     }

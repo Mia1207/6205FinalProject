@@ -44,6 +44,50 @@ public class DrawMath {
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     }
 
+    public double theProbabiltiyOfResult(Match match, String Result){
+        double P = 0;
+        double u1 = match.getPHS();
+        double u2 = match.getPAS();
+        if(Result.equals("HW")){
+            for (int x =1; x<7 ;x++){
+                double a1 = 3.1415926453;
+                double b1 = 0;
+                double result1 = getDefiniteIntegralByTrapezium(u1, u2,x, b1, a1);
+                double a2 = 100000;
+                double b2 = 0;
+                double result2 = getDefiniteIntegralByTrapezium2(u1, u2,x, b2, a2);
+                float I = (float) (((1/3.1415926453) * result1) - (((Math.sin(Math.abs(x) * 3.1415926453))/3.1415926453) * result2));
+                double y = Math.exp(-(u1+u2)) * Math.pow(u1/u2,x/2) * I;
+                P += y;
+            }
+        }
+        if(Result.equals("Draw")){
+                double a1 = 3.1415926453;
+                double b1 = 0;
+                double result1 = getDefiniteIntegralByTrapezium(u1, u2,0, b1, a1);
+                double a2 = 100000;
+                double b2 = 0;
+                double result2 = getDefiniteIntegralByTrapezium2(u1, u2,0, b2, a2);
+                float I = (float) (((1/3.1415926453) * result1) - (((Math.sin(Math.abs(0) * 3.1415926453))/3.1415926453) * result2));
+                double y = Math.exp(-(u1+u2)) * Math.pow(u1/u2,0/2) * I;
+                P = y;
+        }
+        if(Result.equals("AW")){
+            for (int x =-6; x<0 ;x++){
+                double a1 = 3.1415926453;
+                double b1 = 0;
+                double result1 = getDefiniteIntegralByTrapezium(u1, u2,x, b1, a1);
+                double a2 = 100000;
+                double b2 = 0;
+                double result2 = getDefiniteIntegralByTrapezium2(u1, u2,x, b2, a2);
+                float I = (float) (((1/3.1415926453) * result1) - (((Math.sin(Math.abs(x) * 3.1415926453))/3.1415926453) * result2));
+                double y = Math.exp(-(u1+u2)) * Math.pow(u1/u2,x/2) * I;
+                P += y;
+            }
+        }
+        return P;
+    }
+
     public static long factorial(long number) {
         if (number <= 1)
             return 1;
