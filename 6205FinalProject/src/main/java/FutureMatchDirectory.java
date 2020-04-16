@@ -32,22 +32,46 @@ public class FutureMatchDirectory {
                         if (team1.getName().equals(match.getAwayTeam())){
                             u[futureMatch.indexOf(match)][0] = (float) (team.getAverageShot() - team1.getAverageDefense());
                             u[futureMatch.indexOf(match)][1] = (float) (team1.getAverageShot() - team.getAverageDefense());
-                            while(u[futureMatch.indexOf(match)][1] < 0){
-                                u[futureMatch.indexOf(match)][0] += 1;
-                                u[futureMatch.indexOf(match)][1] += 1;
-                                match.setConcedePoint("H");
-                            }
-                            while(u[futureMatch.indexOf(match)][0] <0){
-                                u[futureMatch.indexOf(match)][1] += 1;
-                                u[futureMatch.indexOf(match)][0] += 1;
-                                match.setConcedePoint("A");
-                            }
                         }
                     }
                 }
             }
         }
         return u;
+    }
+
+    public ArrayList<Team> addPointOfFutureMatch(ArrayList<Team> RankingAlready, ArrayList<Match> futureMatch){
+        ArrayList<Team> RankingFinally = new ArrayList<>();
+        for (Match match:futureMatch){
+            for (Team team: RankingAlready){
+                if(match.getResult().equals("H")){
+                    if (match.getHomeTeam().equals(team.getName())){
+                        team.addPoint(3);
+                    }
+                    if (match.getAwayTeam().equals(team.getName())){
+                        team.addPoint(0);
+                    }
+                }else if(match.getResult().equals("A")){
+                    if (match.getHomeTeam().equals(team.getName())){
+                        team.addPoint(0);
+                    }
+                    if (match.getAwayTeam().equals(team.getName())){
+                        team.addPoint(3);
+                    }
+                }else {
+                        if (match.getHomeTeam().equals(team.getName())){
+                            team.addPoint(3);
+                        }
+                        if (match.getAwayTeam().equals(team.getName())){
+                            team.addPoint(0);
+                        }
+                }
+            }
+        }
+        for (Team team: RankingAlready){
+            RankingFinally.add(team);
+        }
+        return RankingFinally;
     }
 
 }

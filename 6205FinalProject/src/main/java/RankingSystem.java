@@ -1,5 +1,6 @@
 import com.csvreader.CsvReader;
 
+import java.lang.invoke.SwitchPoint;
 import java.nio.charset.Charset;
 import java.util.*;
 
@@ -18,9 +19,9 @@ public class RankingSystem {
         calTeamInfo(matchDirectory,teamDirectory);
         calTeamPoint(matchDirectory, teamDirectory);
         ArrayList<Team> rankingResult = sortHelper.calRanking(teamDirectory);
-//        for (int i = 0; i<teamDirectory.getTeamArrayList().size(); i++){
-//            System.out.println(rankingResult.get(i));
-//        }
+        for (int i = 0; i<teamDirectory.getTeamArrayList().size(); i++){
+            System.out.println(rankingResult.get(i));
+        }
         ArrayList<Match> futureMatch = futureMatchDirectory.getFutureMatch(matchDirectory,teamDirectory);
 //        System.out.println(futureMatch);
         float[][] u = futureMatchDirectory.predictForGD(futureMatch,teamDirectory);
@@ -29,22 +30,44 @@ public class RankingSystem {
             match.setPHS(u[i][0]);
             match.setPAS(u[i][1]);
             i++;
-            drawMath.skellamDistribution(match.getPHS(),match.getPAS(),match.getHomeTeam(),match.getAwayTeam());
-            System.out.println( "The probabiltiy of "+match.getHomeTeam() + " win " + match.getAwayTeam()+"is " + drawMath.theProbabiltiyOfResult(match,"HW"));
-            System.out.println( "The probabiltiy of "+ match.getHomeTeam()  + " draw this match is " + drawMath.theProbabiltiyOfResult(match,"Draw"));
-            System.out.println( "The probabiltiy of " + match.getHomeTeam() + " loss this match is " + drawMath.theProbabiltiyOfResult(match,"AW"));
-            System.out.println(drawMath.theProbabiltiyOfResult(match,"HW")+drawMath.theProbabiltiyOfResult(match,"Draw")+drawMath.theProbabiltiyOfResult(match,"AW"));
-            System.out.println("------------------------------------------------------------------------------------------------");
+            if(match.getPAS() < 0 && match.getPHS() > 0){
+                drawMath.poissonDistribution(match.getPHS(),match.getPAS(),match.getHomeTeam(), match.getAwayTeam());
+                drawMath.theProOfResultWithPo(match);
+                System.out.println(match.getResult());
+                System.out.println("------------------------------------------------------------------------------------------------");
+            }else if(match.getPAS() > 0 &&match.getPHS()<0){
+                drawMath.poissonDistribution(match.getPAS(), match.getPHS(),match.getAwayTeam(),match.getHomeTeam());
+                drawMath.theProOfResultWithPo(match);
+                System.out.println(match.getResult());
+                System.out.println("------------------------------------------------------------------------------------------------");
+            }else {
+                drawMath.skellamDistribution(match.getPHS(), match.getPAS(), match.getHomeTeam(), match.getAwayTeam());
+                System.out.println("The probabiltiy of " + match.getHomeTeam() + " win this match with " + match.getAwayTeam() + " is " + drawMath.theProbabiltiyOfResult(match, "HW"));
+                System.out.println("The probabiltiy of " + match.getHomeTeam() + " draw this match with " + match.getAwayTeam() + " is " + drawMath.theProbabiltiyOfResult(match, "Draw"));
+                System.out.println("The probabiltiy of " + match.getHomeTeam() + " loss this match with " + match.getAwayTeam() + " is " + drawMath.theProbabiltiyOfResult(match, "AW"));
+                if (drawMath.theProbabiltiyOfResult(match, "HW") > drawMath.theProbabiltiyOfResult(match, "AW") && drawMath.theProbabiltiyOfResult(match, "HW") >drawMath.theProbabiltiyOfResult(match, "Draw")){
+                    match.setResult("H");
+                }else if (drawMath.theProbabiltiyOfResult(match, "AW") > drawMath.theProbabiltiyOfResult(match, "HW") && drawMath.theProbabiltiyOfResult(match, "AW") >drawMath.theProbabiltiyOfResult(match, "Draw")) {
+                    match.setResult("A");
+                }else if (drawMath.theProbabiltiyOfResult(match, "Draw") > drawMath.theProbabiltiyOfResult(match, "HW") && drawMath.theProbabiltiyOfResult(match, "Draw") >drawMath.theProbabiltiyOfResult(match, "AW")) {
+                    match.setResult("D");
+                }
+                System.out.println(match.getResult());
+                System.out.println("------------------------------------------------------------------------------------------------");
+            }
         }
-
+        ArrayList<Team> finalyRank = futureMatchDirectory.addPointOfFutureMatch(rankingResult,futureMatch);
+        finalyRank = sortHelper.calRanking(finalyRank);
+        for(int j = 0; j<finalyRank.size();j++){
+            System.out.println(finalyRank.get(j));
+        }
     }
 
     public static void initializaData(MatchDirectory matchDirectory, TeamDirectory teamDirectory){
         String filePath = "main/resources/2019-2020.csv";
         DataReader dataReader = new DataReader();
-        RankingSystem rankingSystem = new RankingSystem();
         matchDirectory.matchArrayList = dataReader.readMatchFile(filePath);
-        rankingSystem.teamInformation(teamDirectory);
+        dataReader.teamInformation(teamDirectory);
     }
 
     public static void calTeamInfo(MatchDirectory matchDirectory, TeamDirectory teamDirectory){
@@ -121,29 +144,6 @@ public class RankingSystem {
             temp = (float) (team.getPoint()*0.5*team.getTheNumberofGamesPlayed() + team.getGD()*0.3 + 0.05*team.getTotalGoals() + 0.05*team.getTotalSuccDefense() +0.1*team.getTotalGoals())/team.getTheNumberofGamesPlayed()*100;
             team.setPoint(temp);
         }
-    }
-
-    public void teamInformation(TeamDirectory teamDirectory) {
-        teamDirectory.createTeam("Arsenal");
-        teamDirectory.createTeam("Aston Villa");
-        teamDirectory.createTeam("Bournemouth");
-        teamDirectory.createTeam("Brighton");
-        teamDirectory.createTeam("Burnley");
-        teamDirectory.createTeam("Chelsea");
-        teamDirectory.createTeam("Crystal Palace");
-        teamDirectory.createTeam("Everton");
-        teamDirectory.createTeam("Leicester");
-        teamDirectory.createTeam("Liverpool");
-        teamDirectory.createTeam("Man City");
-        teamDirectory.createTeam("Man United");
-        teamDirectory.createTeam("Newcastle");
-        teamDirectory.createTeam("Norwich");
-        teamDirectory.createTeam("Sheffield United");
-        teamDirectory.createTeam("Southampton");
-        teamDirectory.createTeam("Tottenham");
-        teamDirectory.createTeam("Watford");
-        teamDirectory.createTeam("West Ham");
-        teamDirectory.createTeam("Wolves");
     }
 
 }

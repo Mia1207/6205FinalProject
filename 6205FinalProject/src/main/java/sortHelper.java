@@ -14,6 +14,17 @@ public class sortHelper<X extends Comparable<X>>{
         return rankingResult;
     }
 
+    public ArrayList<Team> calRanking(ArrayList<Team> list){
+        for (int i = 0; i < list.size();i++){
+            for(int j = i; j > 0; j-- ){
+                if (list.get(j).getPoint() > list.get(j-1).getPoint()){
+                    swap(list,j,j-1);
+                }
+            }
+        }
+        return list;
+    }
+
     public ArrayList<Team> intialized(TeamDirectory teamDirectory){
         ArrayList<Team> rankingResult = new ArrayList<>();
         int i =0;

@@ -4,11 +4,19 @@ import java.util.ArrayList;
 
 
 public class DataReader {
+    /*
+    * This Class is defined to help us to read the dataset from csv file
+     */
 
     public DataReader(){
 
     }
 
+    /**
+     * Obtain the match history by a csv file which is useful us to analyze the future match
+     * @param filePath
+     * @return
+     */
     public ArrayList<Match> readMatchFile(String filePath){
         ArrayList<Match> matchArrayList = new ArrayList<>();
         try {
@@ -43,6 +51,32 @@ public class DataReader {
         return matchArrayList;
     }
 
+    /**
+     * As we know the name of teams in this season, we just need to create those team in one Directory
+     * @param teamDirectory A ArrayList stores the directory of team.
+     */
+    public void teamInformation(TeamDirectory teamDirectory) {
+        teamDirectory.createTeam("Arsenal");
+        teamDirectory.createTeam("Aston Villa");
+        teamDirectory.createTeam("Bournemouth");
+        teamDirectory.createTeam("Brighton");
+        teamDirectory.createTeam("Burnley");
+        teamDirectory.createTeam("Chelsea");
+        teamDirectory.createTeam("Crystal Palace");
+        teamDirectory.createTeam("Everton");
+        teamDirectory.createTeam("Leicester");
+        teamDirectory.createTeam("Liverpool");
+        teamDirectory.createTeam("Man City");
+        teamDirectory.createTeam("Man United");
+        teamDirectory.createTeam("Newcastle");
+        teamDirectory.createTeam("Norwich");
+        teamDirectory.createTeam("Sheffield United");
+        teamDirectory.createTeam("Southampton");
+        teamDirectory.createTeam("Tottenham");
+        teamDirectory.createTeam("Watford");
+        teamDirectory.createTeam("West Ham");
+        teamDirectory.createTeam("Wolves");
+    }
 
 
 }
