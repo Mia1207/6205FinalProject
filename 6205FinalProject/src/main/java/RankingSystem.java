@@ -33,6 +33,7 @@ public class RankingSystem {
             System.out.println( "The probabiltiy of "+match.getHomeTeam() + " win " + match.getAwayTeam()+"is " + drawMath.theProbabiltiyOfResult(match,"HW"));
             System.out.println( "The probabiltiy of "+ match.getHomeTeam()  + " draw this match is " + drawMath.theProbabiltiyOfResult(match,"Draw"));
             System.out.println( "The probabiltiy of " + match.getHomeTeam() + " loss this match is " + drawMath.theProbabiltiyOfResult(match,"AW"));
+            System.out.println(drawMath.theProbabiltiyOfResult(match,"HW")+drawMath.theProbabiltiyOfResult(match,"Draw")+drawMath.theProbabiltiyOfResult(match,"AW"));
             System.out.println("------------------------------------------------------------------------------------------------");
         }
 

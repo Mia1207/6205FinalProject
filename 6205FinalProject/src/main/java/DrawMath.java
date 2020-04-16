@@ -13,7 +13,7 @@ public class DrawMath {
     public void skellamDistribution(double u1, double u2,String homeName, String awayName){
         XYSeries series = new XYSeries("xySeries");
         double sum = 0;
-        for (int x = -6; x < 7; x++) {
+        for (int x = -10; x < 10; x++) {
             double a1 = 3.1415926453;
             double b1 = 0;
             double result1 = getDefiniteIntegralByTrapezium(u1, u2,x, b1, a1);
@@ -49,7 +49,7 @@ public class DrawMath {
         double u1 = match.getPHS();
         double u2 = match.getPAS();
         if(Result.equals("HW")){
-            for (int x =1; x<7 ;x++){
+            for (int x =1; x<30 ;x++){
                 double a1 = 3.1415926453;
                 double b1 = 0;
                 double result1 = getDefiniteIntegralByTrapezium(u1, u2,x, b1, a1);
@@ -73,7 +73,7 @@ public class DrawMath {
                 P = y;
         }
         if(Result.equals("AW")){
-            for (int x =-6; x<0 ;x++){
+            for (int x =-30; x<0 ;x++){
                 double a1 = 3.1415926453;
                 double b1 = 0;
                 double result1 = getDefiniteIntegralByTrapezium(u1, u2,x, b1, a1);
