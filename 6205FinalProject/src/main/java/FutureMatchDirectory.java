@@ -40,7 +40,7 @@ public class FutureMatchDirectory {
         return u;
     }
 
-    public ArrayList<Team> addPointOfFutureMatch(ArrayList<Team> RankingAlready, ArrayList<Match> futureMatch){
+    public ArrayList<Team>addPointOfFutureMatch(ArrayList<Team> RankingAlready, ArrayList<Match> futureMatch){
         ArrayList<Team> RankingFinally = new ArrayList<>();
         for (Match match:futureMatch){
             for (Team team: RankingAlready){

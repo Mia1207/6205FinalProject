@@ -1,7 +1,6 @@
 
 import java.util.ArrayList;
 
-//这是一行注释
 
 public class MatchDirectory {
 
