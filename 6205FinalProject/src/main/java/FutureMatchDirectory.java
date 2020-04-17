@@ -2,6 +2,14 @@ import java.util.ArrayList;
 
 public class FutureMatchDirectory {
 
+    /**
+     * This class is defined to contain some functions to predict the future matches.
+     * @getFutureMatch (MatchDirectory matchDirectory, TeamDirectory teamDirectory) Given the already palyed matches and teams, return an
+     * ArrayList having the information of future matches
+     * @predictForGD (ArrayList<Match> futureMatch, TeamDirectory teamDirectory) return the Possible Goal Difference in the future matches.
+     * @addPointOfFutureMatch (ArrayList<Team> RankingAlready, ArrayList<Match> futureMatch) Return the ArrayList<Team> after add the future possible point for twenty teams.
+     */
+
 
     public ArrayList<Match> getFutureMatch(MatchDirectory matchDirectory, TeamDirectory teamDirectory){
         ArrayList<Match> futureMatch = new ArrayList<>();
@@ -40,7 +48,7 @@ public class FutureMatchDirectory {
         return u;
     }
 
-    public ArrayList<Team>addPointOfFutureMatch(ArrayList<Team> RankingAlready, ArrayList<Match> futureMatch){
+    public ArrayList<Team> addPointOfFutureMatch(ArrayList<Team> RankingAlready, ArrayList<Match> futureMatch){
         ArrayList<Team> RankingFinally = new ArrayList<>();
         for (Match match:futureMatch){
             for (Team team: RankingAlready){

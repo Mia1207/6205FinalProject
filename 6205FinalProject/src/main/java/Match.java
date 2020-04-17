@@ -16,7 +16,6 @@ public class Match {
      * @param PHS the possible number of Home Score;
      * @param PAS the possible number of Away Score;
      * @param concedePoints Home/Away team concede one score for another;
-     * @
      */
     private  int matchID;
     private String homeTeam;

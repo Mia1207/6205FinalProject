@@ -17,7 +17,18 @@ import java.io.IOException;
 
 public class DrawMath {
     /**
-     * This class is used to define a Skellam distribution which is ideal distribution to simulate the Goal Difference in a match.
+     * This class is used to define a Skellam distribution and Poisson Distribution which is ideal distribution to simulate the Goal Difference in a match.
+     * @skellamDistribution (double u1, double u2,String homeName, String awayName) It was defined to draw a Skellam Distribution with two teams' Possible Goal Difference.
+     * @saveAsFile (JFreeChart chart, String outputPath, int weight, int height) It was designed to store all the distribution graphs into png file.
+     * @poissonDistribution (double u1, double u2,String homeName, String awayName) It was defined to draw a Poisson Distribution with winner team's Possible Goal Difference.\
+     * @theProOfResultWithPo (Match match) Return the probability of winner wins this game or draws.
+     * @theProbabiltiyOfResult (Match match, String Result) Return the different probability with different result in one match.
+     * @factorial (long number) Used to calculate the the factorial of number.
+     * @f1 (double u1, double u2,int x, double x1) Defined as a specific function which is used in the Skellam Distribution.
+     * @f2 (double u1, double u2,int x, double x1) Defined as a specific function which is used in the Skellam Distribution.
+     * @getDefiniteIntegralByTrapezium (double u1, double u2, int x, double x0, double xn) Used to calculate definite integral of f1.
+     * @getDefiniteIntegralByTrapezium2 (double u1, double u2, int x, double x0, double xn) Used to calculate definite integral of f2.
+     * @getPath() Get the path where to store the distribution graphs.
      */
     private static  int n = 100000;
     private  static  int i = 1;
@@ -65,7 +76,6 @@ public class DrawMath {
         String path = getPath();
         saveAsFile(chart, path, 600, 400);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
     }
 
     public static void saveAsFile(JFreeChart chart, String outputPath, int weight, int height) {

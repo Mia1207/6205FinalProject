@@ -1,6 +1,12 @@
 import java.util.*;
 
 public class sortHelper<X extends Comparable<X>>{
+    /**
+     * This class is defined to rank the ArrayList<Team> by some elementary sort method.
+     * calRanking(ArrayList<Team> list)  Return the team list after rank by regular point using insertion sort.
+     * calRankWithELO(ArrayList<Team> list) Return the team list after tank by ELO points using selection sort.
+     * swap(ArrayList<Team> teams,int i, int j) swap two teams if need.
+     */
 
     public ArrayList<Team> calRanking(ArrayList<Team> list){
         for (int i = 0; i < list.size();i++){
@@ -35,20 +41,8 @@ public class sortHelper<X extends Comparable<X>>{
         return list;
     }
 
-    public ArrayList<Team> intialized(TeamDirectory teamDirectory){
-        ArrayList<Team> rankingResult = new ArrayList<>();
-        int i =0;
-        for (Team team:teamDirectory.getTeamArrayList()){
-            rankingResult.add(team);
-        }
-        return rankingResult;
-    }
 
     public void swap(ArrayList<Team> teams,int i, int j){
         Collections.swap(teams,i,j);
-    }
-
-    public Boolean bigger(Team x, Team y){
-        return  x.getPoint() > y.getPoint();
     }
 }

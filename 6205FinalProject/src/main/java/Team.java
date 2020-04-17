@@ -2,6 +2,18 @@ import java.text.DecimalFormat;
 import java.util.ArrayList;
 
 public class Team {
+    /**
+     * @param name The name of a team.
+     * @param totalGoals The total number of goals the team obtain in past matches.
+     * @param point The point calculated by the regular EPL game principle.
+     * @param TheNumberofGamesPlayed The total number of game the team attends in this season.
+     * @param averageGoals Average goal the team gain.
+     * @param totalFouls The total number of Fouls the team was commited in past matches.
+     * @param totalSuccDefense The total times of successful defense.
+     * @param ELOPoint The point calculated by the ELO rating principle.
+     * @param GD The total Goal Difference in the past matches.
+     * @param totalShot the total number of team's shot in the past matches.
+     */
 
     private String name;
     private int totalGoals = 0;
@@ -17,7 +29,6 @@ public class Team {
     private int teamID;
     private float averageFouls;
     private float averageDefense;
-    private Team rival;
     private float ELOPoint;
     private int GD;
     private double totalShot = 0;
@@ -42,10 +53,6 @@ public class Team {
 
     public String getName() {
         return name;
-    }
-
-    public void setRival(Team rival) {
-        this.rival = rival;
     }
 
     public ArrayList<String> getRivalAtHome() {

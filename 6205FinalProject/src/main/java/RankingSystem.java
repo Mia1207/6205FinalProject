@@ -5,6 +5,18 @@ import java.nio.charset.Charset;
 import java.util.*;
 
 public class RankingSystem {
+    /**
+     * This class is the most important class in this project
+     * @param args
+     * @initializaData (MatchDirectory matchDirectory, TeamDirectory teamDirectory) Obtain the team information and past matches information.
+     * @updateTimes (ArrayList<Match> futureMatch, TeamDirectory teamDirectory) Add the played times of team after predict one result of a future match.
+     * @calTeamInfo (MatchDirectory matchDirectory, TeamDirectory teamDirectory) Add some necessary information to team by analyzing the past matches.
+     * @calTeamELOPoint (ArrayList<Match> Matchs, ArrayList<Team> teams) Return teams after calculate the ELO point by the result of matches.
+     * @getFinalTable (ArrayList<Match> pastMatchs, ArrayList<Match> futureMatchs, ArrayList<Team> teams) Return a Map which stores
+     * the whole matches result in this season both past result and future prediction.
+     * @objects2Csv (ArrayList<Team> objects, String path) Store the rank of teams into an csv file.
+     * @write (Map<String, String> ints, ArrayList<Team> teams) Store the final table into an csv file.
+     */
 
     public static void main(String[] args) {
         MatchDirectory matchDirectory = new MatchDirectory();

@@ -1,6 +1,10 @@
 import java.util.ArrayList;
 
 public class TeamDirectory {
+    /**
+     * This class is a fundamental class in order to make sure our project will run successively.
+     * @param teamArrayList Store the whole teams information
+     */
     ArrayList<Team> teamArrayList;
 
     public TeamDirectory(){

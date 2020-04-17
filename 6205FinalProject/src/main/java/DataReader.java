@@ -6,8 +6,10 @@ import java.util.ArrayList;
 
 
 public class DataReader {
-    /*
-    * This Class is defined to help us to read the dataset from csv file
+    /**
+     * This Class is defined to help us to read the dataset from csv file
+     * @readMatchFile(String filePath) extract the dataset from csv file and store it into an ArrayList.
+     * @teamInformation As we know the name of teams in this season, we just need to create those team in one Directory.
      */
 
     public DataReader(){
