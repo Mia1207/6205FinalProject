@@ -66,6 +66,7 @@ public class RankingSystem {
         }
         ArrayList<Team> finalyRank = futureMatchDirectory.addPointOfFutureMatch(rankingResult, futureMatch);
         finalyRank = sortHelper.calRanking(finalyRank);
+        updateTeam(futureMatch,teamDirectory);
         for (int j = 0; j < finalyRank.size(); j++) {
             System.out.println(finalyRank.get(j));
         }
@@ -82,6 +83,19 @@ public class RankingSystem {
         matchDirectory.matchArrayList = dataReader.readMatchFile(filePath);
         dataReader.teamInformation(teamDirectory);
     }
+
+    private static void updateTeam(ArrayList<Match> futureMatch, TeamDirectory teamDirectory){
+        for(Match match: futureMatch){
+            for (Team team: teamDirectory.getTeamArrayList()){
+                if (match.getAwayTeam().equals(team.getName())){
+                    team.updateTimes();
+                }else if ((match.getHomeTeam().equals(team.getName()))){
+                    team.updateTimes();
+                }
+            }
+        }
+    }
+
 
     public static void calTeamInfo(MatchDirectory matchDirectory, TeamDirectory teamDirectory) {
         for (Team team : teamDirectory.getTeamArrayList()) {
