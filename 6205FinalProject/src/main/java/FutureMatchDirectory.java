@@ -60,10 +60,10 @@ public class FutureMatchDirectory {
                     }
                 }else {
                         if (match.getHomeTeam().equals(team.getName())){
-                            team.addPoint(3);
+                            team.addPoint(1);
                         }
                         if (match.getAwayTeam().equals(team.getName())){
-                            team.addPoint(0);
+                            team.addPoint(1);
                         }
                 }
             }

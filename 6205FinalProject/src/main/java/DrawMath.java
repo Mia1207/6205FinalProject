@@ -5,9 +5,11 @@ import org.jfree.chart.ChartFrame;
 import org.jfree.chart.ChartUtilities;
 import org.jfree.chart.JFreeChart;
 import org.jfree.chart.plot.PlotOrientation;
+import org.jfree.chart.plot.XYPlot;
 import org.jfree.data.xy.XYSeries;
 import org.jfree.data.xy.XYSeriesCollection;
 
+import java.awt.*;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -18,6 +20,7 @@ public class DrawMath {
      * This class is used to define a Skellam distribution which is ideal distribution to simulate the Goal Difference in a match.
      */
     private static  int n = 100000;
+    private  static  int i = 1;
 
     //
     public void skellamDistribution(double u1, double u2,String homeName, String awayName){
@@ -52,11 +55,15 @@ public class DrawMath {
                 false, // tooltips
                 false // urls
         );
-
+        XYPlot plot = (XYPlot) chart.getPlot();
+        plot.setBackgroundPaint(new Color(0xFF, 0xFF, 0xFF));
+        plot.setDomainGridlinePaint(new Color(0x00, 0x00, 0xff));
+        plot.setRangeGridlinePaint(new Color(0xff, 0x00, 0x00));
         ChartFrame frame = new ChartFrame("Skellam Distribution", chart);
         frame.pack();
         frame.setVisible(true);
-        saveAsFile(chart, "main/resources/1.png", 600, 400);
+        String path = getPath();
+        saveAsFile(chart, path, 600, 400);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
     }
@@ -69,9 +76,7 @@ public class DrawMath {
                 outFile.getParentFile().mkdirs();
             }
             out = new FileOutputStream(outputPath);
-            // 保存为PNG文件
             ChartUtilities.writeChartAsPNG(out, chart, 600, 350);
-            // 保存为JPEG文件
             //ChartUtilities.writeChartAsJPEG(out, chart, 500, 400);
             out.flush();
         } catch (FileNotFoundException e) {
@@ -104,7 +109,7 @@ public class DrawMath {
         XYSeriesCollection dataset = new XYSeriesCollection();
         dataset.addSeries(series);
         JFreeChart chart = ChartFactory.createXYLineChart(
-                "Winner Name "+ homeName + " vs " , // chart title
+                "Winner Name "+ homeName + " vs Lost Team "+awayName, // chart title
                 "Goal Difference of this match", // x axis label
                 "Probabiltiy Density Function", // y axis label
                 dataset, // data
@@ -113,10 +118,15 @@ public class DrawMath {
                 false, // tooltips
                 false // urls
         );
-
+        XYPlot plot = (XYPlot) chart.getPlot();
+        plot.setBackgroundPaint(new Color(0xFF, 0xFF, 0xFF));
+        plot.setDomainGridlinePaint(new Color(0x00, 0x00, 0xff));
+        plot.setRangeGridlinePaint(new Color(0xff, 0x00, 0x00));
         ChartFrame frame = new ChartFrame("Skellam Distribution", chart);
         frame.pack();
         frame.setVisible(true);
+        String path = getPath();
+        saveAsFile(chart, path, 600, 400);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     }
 
@@ -245,5 +255,14 @@ public class DrawMath {
             sum += (f2(u1,u2,x, xi) + f2(u1,u2,x,xi + h)) * h / 2;
         }
         return sum;
+    }
+
+    public static String getPath(){
+        String parent = "main/resources/";
+        String file = Integer.toString(i) + ".png";
+        String path = parent + file;
+        System.out.println(i);
+        i++;
+        return path;
     }
 }

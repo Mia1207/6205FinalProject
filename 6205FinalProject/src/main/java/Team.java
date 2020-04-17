@@ -156,17 +156,15 @@ public class Team {
 
     @Override
     public String toString() {
-        return "Team{" +
-                "Team ID=" + teamID +
-                ", name='" + name + '\'' +
+        return  "Team ID=" + teamID +
+                ", Name=" + name  +
                 ", Goal Difference=" + GD +
-                "， Average Shot=" + getAverageShot() +
+                ", Average Shot=" + getAverageShot() +
                 ", Average Goal=" + averageGoals +
                 ", Average fouls commited=" + averageFouls +
                 ", Average successful defense=" + averageDefense +
                 ", played Game=" + theNumberofGamesPlayed +
-                ", point=" + point +
-                '}';
+                ", point=" + point;
     }
 
 }
