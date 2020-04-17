@@ -7,7 +7,6 @@ import java.nio.charset.Charset;
 import java.util.*;
 
 public class RankingSystem {
-    DataReader dataReader = new DataReader();
 
     public static void main(String[] args) {
         MatchDirectory matchDirectory = new MatchDirectory();
@@ -65,6 +64,7 @@ public class RankingSystem {
             }
         }
         ArrayList<Team> finalyRank = futureMatchDirectory.addPointOfFutureMatch(rankingResult, futureMatch);
+        updateTimes(futureMatch,teamDirectory);
         finalyRank = sortHelper.calRanking(finalyRank);
         for (int j = 0; j < finalyRank.size(); j++) {
             System.out.println(finalyRank.get(j));
@@ -81,6 +81,18 @@ public class RankingSystem {
         DataReader dataReader = new DataReader();
         matchDirectory.matchArrayList = dataReader.readMatchFile(filePath);
         dataReader.teamInformation(teamDirectory);
+    }
+
+    private static void updateTimes(ArrayList<Match> futureMatch, TeamDirectory teamDirectory){
+        for(Match match: futureMatch){
+            for (Team team: teamDirectory.getTeamArrayList()){
+                if (team.getName().equals(match.getAwayTeam())){
+                    team.updateTimes();
+                }else if(team.getName().equals(match.getHomeTeam())){
+                    team.updateTimes();
+                }
+            }
+        }
     }
 
     public static void calTeamInfo(MatchDirectory matchDirectory, TeamDirectory teamDirectory) {
