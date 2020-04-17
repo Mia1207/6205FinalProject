@@ -1,4 +1,7 @@
+import com.csvreader.CsvWriter;
+
 import java.io.*;
+import java.nio.charset.Charset;
 import java.util.*;
 
 public class RankingSystem {
@@ -32,6 +35,7 @@ public class RankingSystem {
         ArrayList<Match> futureMatch = futureMatchDirectory.getFutureMatch(matchDirectory, teamDirectory);
         float[][] u = futureMatchDirectory.predictForGD(futureMatch, teamDirectory);
         int i = 0;
+        int[][] table = new int[21][21];
         System.out.println("------------------------------------------------------------------------------------------------");
         for (Match match : futureMatch) {
             match.setPHS(u[i][0]);
@@ -82,6 +86,9 @@ public class RankingSystem {
         } catch (IOException e) {
             e.printStackTrace();
         }
+        table = getFinalTable(matchDirectory.matchArrayList,futureMatch,rankingResult);
+        System.out.println(table);
+        write(table,rankingResult);
     }
 
     public static void initializaData(MatchDirectory matchDirectory, TeamDirectory teamDirectory) {
@@ -174,6 +181,52 @@ public class RankingSystem {
         return teams;
     }
 
+    public static int[][] getFinalTable(ArrayList<Match> pastMatchs, ArrayList<Match> futureMatchs, ArrayList<Team> teams){
+        int[][] ints = {
+                       {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20},
+                       {1, 2, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20},
+                       {2, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20},
+                       {3, 1, 2, 2, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20},
+                       {4, 1, 2, 3, 2, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20},
+                       {5, 1, 2, 3, 4, 2, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20},
+                       {6, 1, 2, 3, 4, 5, 2, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20},
+                       {7, 1, 2, 3, 4, 5, 6, 2, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20},
+                       {8, 1, 2, 3, 4, 5, 6, 7, 2, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20},
+                       {9, 1, 2, 3, 4, 5, 6, 7, 8, 2, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20},
+                       {10, 1, 2, 3, 4, 5, 6, 7, 8, 9, 2, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20},
+                       {11, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 2, 12, 13, 14, 15, 16, 17, 18, 19, 20},
+                       {12, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 2, 13, 14, 15, 16, 17, 18, 19, 20},
+                       {13, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 2, 14, 15, 16, 17, 18, 19, 20},
+                       {14, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 2, 15, 16, 17, 18, 19, 20},
+                       {15, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 2, 16, 17, 18, 19, 20},
+                       {16, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 2, 17, 18, 19, 20},
+                       {17, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 2, 18, 19, 20},
+                       {18, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 2, 19, 20},
+                       {19, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 2, 20},
+                       {20, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 2},
+               };
+
+        pastMatchs.addAll(futureMatchs);
+        for(Match match: pastMatchs){
+            for (Team team : teams){
+                if (team.getName().equals(match.getHomeTeam())){
+                    for (Team team1:teams){
+                        if (team1.getName().equals(match.getAwayTeam())){
+                            if (match.getResult().equals("H")) {
+                                ints[team.getTeamID()+1][team1.getTeamID()+1] = 1;
+                            }else if (match.getResult().equals("D")) {
+                                ints[team.getTeamID()+1][team1.getTeamID()+1] = 0;
+                            }else{
+                                ints[team.getTeamID()+1][team1.getTeamID()+1] = -1;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        return ints;
+    }
+
 
     /**
      * 写入CSV文件
@@ -212,6 +265,49 @@ public class RankingSystem {
                     data += titleAndData[1] + ",";
                 }
                 titleStatusFlag = true ;
+                list.add(data);
+            }
+
+            writer.append(title + "\n");
+            for (String string : list) {
+                writer.append(string + "\n");
+            }
+
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void write(int[][] ints,ArrayList<Team> teams){
+        String path = "main/resources/Final Table.csv";
+        try (OutputStream out = new FileOutputStream(path);
+
+             OutputStreamWriter writer = new OutputStreamWriter((out),"GBK")) {
+
+            ArrayList<String> list = new ArrayList<String>();
+            int rowNumCount = ints.length;
+
+            // 获取title
+            String title = "";
+            // 循环行Row
+            for (int rowNum = 0; rowNum < rowNumCount; rowNum++) {
+
+                // 获取传来的对象数据
+                String o = ints[rowNum].toString();
+                // 获取 对象属性数据对
+                String[] entrys = o.split(",");
+
+                // 创建对应的csv 数据对象
+                String data = "";
+                // 获取当前的 行 Cell 的所有列 Row 数据
+                for (int cellNum = 0; cellNum < entrys.length; cellNum++) {
+                    String entry = entrys[cellNum];
+                    // data
+                    System.out.println(String.valueOf(ints[rowNum]));
+                    data += entry.split(",");
+                }
                 list.add(data);
             }
 

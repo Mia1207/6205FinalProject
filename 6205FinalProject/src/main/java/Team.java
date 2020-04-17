@@ -163,6 +163,10 @@ public class Team {
         averageFouls= Float.valueOf(goal);
     }
 
+    public int getTeamID() {
+        return teamID;
+    }
+
     @Override
     public String toString() {
         return  "Team ID=" + teamID +
