@@ -86,15 +86,6 @@ public class RankingSystem {
             e.printStackTrace();
         }
         Map<String, String> table = getFinalTable(matchDirectory.matchArrayList, futureMatch, rankingResult);
-        for (String s : table.keySet()) {
-            System.out.println(s);
-        }
-        int wee = 0;
-        for (String s : table.values()) {
-            System.out.println(s + "]]]]]]]]]]]]]]]]]]]]]]]]]");
-            wee++;
-        }
-        System.out.println(wee);
         write(table, rankingResult);
     }
 
