@@ -6,8 +6,6 @@ public class Match {
      * @param teamB the name of B which  will match with A.
      * @param date the match date.
      * @param location the match location to determine who is home team.
-     * @param probabiltiy the probability A will beat B.
-     * @param Attendence the number of people go to watch this match, which means the number of supporter of home team
      * @param HST Home Team Shots on Target
      * @param AST Away Team Shots on Target
      * @param HF Home Team Fouls Committed
@@ -15,7 +13,7 @@ public class Match {
      * @param homeScore Full Time Home Team Goals
      * @param awayScore Full Time Away Team Goals
      * @param result Full time result
-     * @param PHS the possible numbee of Home Score;
+     * @param PHS the possible number of Home Score;
      * @param PAS the possible number of Away Score;
      * @param concedePoints Home/Away team concede one score for another;
      * @
@@ -24,7 +22,6 @@ public class Match {
     private String homeTeam;
     private String awayTeam;
     private String date;
-    private String concedePoint;
     private int homeScore;
     private int awayScore;
     private float PHS;
@@ -43,14 +40,6 @@ public class Match {
 
     public int getMatchID() {
         return matchID;
-    }
-
-    public void setConcedePoint(String concedePoint) {
-        this.concedePoint = concedePoint;
-    }
-
-    public String getConcedePoint() {
-        return concedePoint;
     }
 
     public void setDate(String date){

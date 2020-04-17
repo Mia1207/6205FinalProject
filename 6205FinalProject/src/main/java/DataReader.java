@@ -24,15 +24,15 @@ public class DataReader {
         try {
             ArrayList<String[]> csvList = new ArrayList<String[]>();
             CsvReader reader = new CsvReader(filePath,',', Charset.forName("GBK"));
-            reader.readHeaders(); //跳过表头,不跳可以注释掉
+            reader.readHeaders(); // skip the header of the csv file
 
             while(reader.readRecord()){
-                csvList.add(reader.getValues()); //按行读取，并把每一行的数据添加到list集合
+                csvList.add(reader.getValues()); //scan by row
             }
             reader.close();
 
             for(int row=0;row<csvList.size();row++){
-                //打印每一行的数据
+                // print each value in the row
                 Match match = new Match();
                 match.setHomeTeam(csvList.get(row)[3]);
                 match.setDate(csvList.get(row)[1]);
