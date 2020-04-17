@@ -69,5 +69,6 @@
     <orderEntry type="library" name="junit-4.11" level="project" />
     <orderEntry type="library" name="servlet" level="project" />
     <orderEntry type="library" name="swtgraphics2d" level="project" />
+    <orderEntry type="library" name="commons-io:commons-io:2.6" level="project" />
   </component>
 </module>

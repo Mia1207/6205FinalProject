@@ -2,10 +2,16 @@ import javax.swing.JFrame;
 
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartFrame;
+import org.jfree.chart.ChartUtilities;
 import org.jfree.chart.JFreeChart;
 import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.data.xy.XYSeries;
 import org.jfree.data.xy.XYSeriesCollection;
+
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
 
 public class DrawMath {
     /**
@@ -50,7 +56,37 @@ public class DrawMath {
         ChartFrame frame = new ChartFrame("Skellam Distribution", chart);
         frame.pack();
         frame.setVisible(true);
+        saveAsFile(chart, "main/resources/1.png", 600, 400);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
+    }
+
+    public static void saveAsFile(JFreeChart chart, String outputPath, int weight, int height) {
+        FileOutputStream out = null;
+        try {
+            File outFile = new File(outputPath);
+            if (!outFile.getParentFile().exists()) {
+                outFile.getParentFile().mkdirs();
+            }
+            out = new FileOutputStream(outputPath);
+            // 保存为PNG文件
+            ChartUtilities.writeChartAsPNG(out, chart, 600, 350);
+            // 保存为JPEG文件
+            //ChartUtilities.writeChartAsJPEG(out, chart, 500, 400);
+            out.flush();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            if (out != null) {
+                try {
+                    out.close();
+                } catch (IOException e) {
+                    // do nothing
+                }
+            }
+        }
     }
 
     public void poissonDistribution(double u1, double u2,String homeName, String awayName){
