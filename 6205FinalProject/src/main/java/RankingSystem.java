@@ -28,7 +28,13 @@ public class RankingSystem {
             System.out.println(rankWithELO.get(i));
         }
         try {
-            objects2Csv(rankingResult, "main/resources/Already Rank.csv");
+            objects2Csv(rankingResult, "main/resources/Rank result of EPL Principle/Already Rank.csv");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        try {
+            objects2Csv(rankWithELO, "main/resources/Rank result of ELO Rating Principle/Already Rank with ELO.csv");
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -80,8 +86,14 @@ public class RankingSystem {
         for (int j = 0; j < finalRankWithELO.size(); j++) {
             System.out.println(finalRankWithELO.get(j));
         }
+        System.out.println("------------------------------------------------------------------------------------------------");
         try {
-            objects2Csv(finalyRank, "main/resources/Final Rank.csv");
+            objects2Csv(finalyRank, "main/resources/Rank result of EPL Principle/Final Rank.csv");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        try {
+            objects2Csv(finalRankWithELO, "main/resources/Rank result of ELO Rating Principle/Final Rank with ELO.csv");
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -182,7 +194,6 @@ public class RankingSystem {
     public static Map<String, String> getFinalTable(ArrayList<Match> pastMatchs, ArrayList<Match> futureMatchs, ArrayList<Team> teams) {
         Map<String, String> result = new HashMap<>();
         pastMatchs.addAll(futureMatchs);
-        System.out.println(pastMatchs.size());
         for (Team team : teams) {
             String r = new String();
             for (Team team1 : teams) {

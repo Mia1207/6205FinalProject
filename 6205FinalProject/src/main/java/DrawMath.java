@@ -258,7 +258,7 @@ public class DrawMath {
     }
 
     public static String getPath(){
-        String parent = "main/resources/";
+        String parent = "main/resources/Distribution Graph/";
         String file = Integer.toString(i) + ".png";
         String path = parent + file;
         i++;
