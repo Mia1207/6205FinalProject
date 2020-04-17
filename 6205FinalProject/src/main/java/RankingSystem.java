@@ -1,9 +1,4 @@
-import com.csvreader.CsvReader;
-import com.csvreader.CsvWriter;
-
 import java.io.*;
-import java.lang.invoke.SwitchPoint;
-import java.nio.charset.Charset;
 import java.util.*;
 
 public class RankingSystem {
@@ -15,14 +10,19 @@ public class RankingSystem {
         DrawMath drawMath = new DrawMath();
         FutureMatchDirectory futureMatchDirectory = new FutureMatchDirectory();
         initializaData(matchDirectory, teamDirectory);
-//        for (Match match:matchDirectory.getMatchArrayList()){
-//            System.out.println(match);
-//        }
         calTeamInfo(matchDirectory, teamDirectory);
-        calTeamPoint(matchDirectory, teamDirectory);
-        ArrayList<Team> rankingResult = sortHelper.calRanking(teamDirectory);
+        ArrayList<Team> rankingResult = sortHelper.calRanking(teamDirectory.getTeamArrayList());
+        ArrayList<Team> rankWithELO = calTeamELOPoint(matchDirectory.matchArrayList, rankingResult);
+        System.out.println("------------------------------------------------------------------------------------------------");
+        System.out.println("The rank result sorted by EPL Point");
         for (int i = 0; i < teamDirectory.getTeamArrayList().size(); i++) {
             System.out.println(rankingResult.get(i));
+        }
+        System.out.println("------------------------------------------------------------------------------------------------");
+        System.out.println("The rank result sorted by ELO rating principle");
+        rankWithELO = sortHelper.calRankWithELO(rankWithELO);
+        for (int i = 0; i < teamDirectory.getTeamArrayList().size(); i++) {
+            System.out.println(rankWithELO.get(i));
         }
         try {
             objects2Csv(rankingResult,"main/resources/Already Rank.csv");
@@ -30,9 +30,9 @@ public class RankingSystem {
             e.printStackTrace();
         }
         ArrayList<Match> futureMatch = futureMatchDirectory.getFutureMatch(matchDirectory, teamDirectory);
-//        System.out.println(futureMatch);
         float[][] u = futureMatchDirectory.predictForGD(futureMatch, teamDirectory);
         int i = 0;
+        System.out.println("------------------------------------------------------------------------------------------------");
         for (Match match : futureMatch) {
             match.setPHS(u[i][0]);
             match.setPAS(u[i][1]);
@@ -59,15 +59,23 @@ public class RankingSystem {
                 } else if (drawMath.theProbabiltiyOfResult(match, "Draw") > drawMath.theProbabiltiyOfResult(match, "HW") && drawMath.theProbabiltiyOfResult(match, "Draw") > drawMath.theProbabiltiyOfResult(match, "AW")) {
                     match.setResult("D");
                 }
-                System.out.println(match.getResult());
+                System.out.println("The result of this match is: " + match.getResult());
                 System.out.println("------------------------------------------------------------------------------------------------");
             }
         }
         ArrayList<Team> finalyRank = futureMatchDirectory.addPointOfFutureMatch(rankingResult, futureMatch);
         updateTimes(futureMatch,teamDirectory);
         finalyRank = sortHelper.calRanking(finalyRank);
+        System.out.println("The final rank result sorted by EPL point");
         for (int j = 0; j < finalyRank.size(); j++) {
             System.out.println(finalyRank.get(j));
+        }
+        System.out.println("------------------------------------------------------------------------------------------------");
+        System.out.println("The final rank result sort by ELO point");
+        ArrayList<Team> finalRankWithELO = calTeamELOPoint(futureMatch,finalyRank);
+        finalRankWithELO = sortHelper.calRankWithELO(finalRankWithELO);
+        for (int j = 0; j < finalRankWithELO.size(); j++) {
+            System.out.println(finalRankWithELO.get(j));
         }
         try {
             objects2Csv(finalyRank,"main/resources/Final Rank.csv");
@@ -121,54 +129,49 @@ public class RankingSystem {
         }
     }
 
-    public static void calTeamPoint(MatchDirectory matchDirectory, TeamDirectory teamDirectory) {
+    public static ArrayList<Team> calTeamELOPoint(ArrayList<Match> Matchs, ArrayList<Team> teams) {
         int count = 0;
-        for (Match match : matchDirectory.getMatchArrayList()) {
+        for (Match match : Matchs) {
             if (match.getResult().equals("H")) {
-                for (Team team1 : teamDirectory.getTeamArrayList()) {
+                for (Team team1 : teams) {
                     if (team1.getName().equals(match.getHomeTeam())) {
-                        for (Team team2 : teamDirectory.getTeamArrayList()) {
+                        for (Team team2 : teams) {
                             if (team2.getName().equals(match.getAwayTeam())) {
                                 count++;
-                                team1.addPoint((float) (team2.getPoint() + 1) / team1.getTheNumberofGamesPlayed());
-                                team2.addPoint((float) (team1.getPoint() - 1) / team2.getTheNumberofGamesPlayed());
+                                team1.updateELO((float) (team2.getPoint() + 100) / team1.getTheNumberofGamesPlayed());
+                                team2.updateELO((float) (team1.getPoint() - 100) / team2.getTheNumberofGamesPlayed());
                             }
                         }
                     }
                 }
             } else if (match.getResult().equals("D")) {
-                for (Team team1 : teamDirectory.getTeamArrayList()) {
+                for (Team team1 : teams) {
                     if (team1.getName().equals(match.getHomeTeam())) {
-                        for (Team team2 : teamDirectory.getTeamArrayList()) {
+                        for (Team team2 : teams) {
                             if (team2.getName().equals(match.getAwayTeam())) {
                                 count++;
-                                team1.addPoint((float) (team2.getPoint() / team1.getTheNumberofGamesPlayed()));
-                                team2.addPoint((float) (team1.getPoint() / team2.getTheNumberofGamesPlayed()));
+                                team1.updateELO((float) (team2.getPoint() / team1.getTheNumberofGamesPlayed()));
+                                team2.updateELO((float) (team1.getPoint() / team2.getTheNumberofGamesPlayed()));
                             }
                         }
                     }
                 }
             }
             if (match.getResult().equals("A")) {
-                for (Team team1 : teamDirectory.getTeamArrayList()) {
+                for (Team team1 : teams) {
                     if (team1.getName().equals(match.getHomeTeam())) {
-                        for (Team team2 : teamDirectory.getTeamArrayList()) {
+                        for (Team team2 : teams) {
                             if (team2.getName().equals(match.getAwayTeam())) {
                                 count++;
-                                team2.addPoint((float) (team1.getPoint() + 1) / team2.getTheNumberofGamesPlayed());
-                                team1.addPoint((float) (team2.getPoint() - 1) / team1.getTheNumberofGamesPlayed());
+                                team2.updateELO((float) (team1.getPoint() + 100) / team2.getTheNumberofGamesPlayed());
+                                team1.updateELO((float) (team2.getPoint() - 100) / team1.getTheNumberofGamesPlayed());
                             }
                         }
                     }
                 }
             }
         }
-
-        for (Team team : teamDirectory.getTeamArrayList()) {
-            float temp;
-            temp = (float) (team.getPoint() * 0.5 * team.getTheNumberofGamesPlayed() + team.getGD() * 0.3 + 0.05 * team.getTotalGoals() + 0.05 * team.getTotalSuccDefense() + 0.1 * team.getTotalGoals()) / team.getTheNumberofGamesPlayed() * 100;
-            team.setPoint(temp);
-        }
+        return teams;
     }
 
 

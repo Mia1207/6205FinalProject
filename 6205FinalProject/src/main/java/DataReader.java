@@ -58,26 +58,26 @@ public class DataReader {
      * @param teamDirectory A ArrayList stores the directory of team.
      */
     public void teamInformation(TeamDirectory teamDirectory) {
-        teamDirectory.createTeam("Arsenal");
-        teamDirectory.createTeam("Aston Villa");
-        teamDirectory.createTeam("Bournemouth");
-        teamDirectory.createTeam("Brighton");
-        teamDirectory.createTeam("Burnley");
-        teamDirectory.createTeam("Chelsea");
-        teamDirectory.createTeam("Crystal Palace");
-        teamDirectory.createTeam("Everton");
-        teamDirectory.createTeam("Leicester");
-        teamDirectory.createTeam("Liverpool");
-        teamDirectory.createTeam("Man City");
-        teamDirectory.createTeam("Man United");
-        teamDirectory.createTeam("Newcastle");
-        teamDirectory.createTeam("Norwich");
-        teamDirectory.createTeam("Sheffield United");
-        teamDirectory.createTeam("Southampton");
-        teamDirectory.createTeam("Tottenham");
-        teamDirectory.createTeam("Watford");
-        teamDirectory.createTeam("West Ham");
-        teamDirectory.createTeam("Wolves");
+        teamDirectory.createTeam("Arsenal",40);
+        teamDirectory.createTeam("Aston Villa",25);
+        teamDirectory.createTeam("Bournemouth",27);
+        teamDirectory.createTeam("Brighton",29);
+        teamDirectory.createTeam("Burnley",39);
+        teamDirectory.createTeam("Chelsea",48);
+        teamDirectory.createTeam("Crystal Palace",39);
+        teamDirectory.createTeam("Everton",37);
+        teamDirectory.createTeam("Leicester",53);
+        teamDirectory.createTeam("Liverpool",82);
+        teamDirectory.createTeam("Man City",57);
+        teamDirectory.createTeam("Man United",45);
+        teamDirectory.createTeam("Newcastle",35);
+        teamDirectory.createTeam("Norwich",21);
+        teamDirectory.createTeam("Sheffield United",43);
+        teamDirectory.createTeam("Southampton",34);
+        teamDirectory.createTeam("Tottenham",41);
+        teamDirectory.createTeam("Watford",27);
+        teamDirectory.createTeam("West Ham",27);
+        teamDirectory.createTeam("Wolves",43);
     }
 
 

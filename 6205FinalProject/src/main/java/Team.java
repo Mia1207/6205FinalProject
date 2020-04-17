@@ -18,6 +18,7 @@ public class Team {
     private float averageFouls;
     private float averageDefense;
     private Team rival;
+    private float ELOPoint;
     private int GD;
     private double totalShot = 0;
     private double averageShot = 0;
@@ -87,6 +88,14 @@ public class Team {
         DecimalFormat df = new DecimalFormat("0.##");
         String goal = df.format((float)point);
         this.point = Float.valueOf(goal);
+    }
+
+    public float getELOPoint() {
+        return ELOPoint;
+    }
+
+    public void updateELO(Float amount){
+        ELOPoint += amount;
     }
 
     public void updateTimes(){
@@ -161,10 +170,11 @@ public class Team {
                 ", Goal Difference=" + GD +
                 ", Average Shot=" + getAverageShot() +
                 ", Average Goal=" + averageGoals +
-                ", Average fouls commited=" + averageFouls +
-                ", Average successful defense=" + averageDefense +
-                ", played Game=" + theNumberofGamesPlayed +
-                ", point=" + point;
+                ", Average Fouls commited=" + averageFouls +
+                ", Average Successful Defense=" + averageDefense +
+                ", Played Game=" + theNumberofGamesPlayed +
+                ", Point=" + point +
+                ", ELO Point=" + ELOPoint;
     }
 
 }

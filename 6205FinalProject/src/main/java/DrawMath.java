@@ -261,7 +261,6 @@ public class DrawMath {
         String parent = "main/resources/";
         String file = Integer.toString(i) + ".png";
         String path = parent + file;
-        System.out.println(i);
         i++;
         return path;
     }

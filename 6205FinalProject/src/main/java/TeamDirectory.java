@@ -11,9 +11,10 @@ public class TeamDirectory {
         return teamArrayList;
     }
 
-    public Team createTeam(String name){
+    public Team createTeam(String name,float point){
         Team team = new Team();
         team.setName(name);
+        team.addPoint(point);
         teamArrayList.add(team);
         return team;
     }
