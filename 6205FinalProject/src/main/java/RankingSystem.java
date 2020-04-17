@@ -28,14 +28,13 @@ public class RankingSystem {
             System.out.println(rankWithELO.get(i));
         }
         try {
-            objects2Csv(rankingResult,"main/resources/Already Rank.csv");
+            objects2Csv(rankingResult, "main/resources/Already Rank.csv");
         } catch (IOException e) {
             e.printStackTrace();
         }
         ArrayList<Match> futureMatch = futureMatchDirectory.getFutureMatch(matchDirectory, teamDirectory);
         float[][] u = futureMatchDirectory.predictForGD(futureMatch, teamDirectory);
         int i = 0;
-        int[][] table = new int[21][21];
         System.out.println("------------------------------------------------------------------------------------------------");
         for (Match match : futureMatch) {
             match.setPHS(u[i][0]);
@@ -44,12 +43,12 @@ public class RankingSystem {
             if (match.getPAS() < 0 && match.getPHS() > 0) {
                 drawMath.poissonDistribution(match.getPHS(), match.getPAS(), match.getHomeTeam(), match.getAwayTeam());
                 drawMath.theProOfResultWithPo(match);
-                System.out.println(match.getResult());
+                System.out.println("The result of this match is: " + match.getResult());
                 System.out.println("------------------------------------------------------------------------------------------------");
             } else if (match.getPAS() > 0 && match.getPHS() < 0) {
                 drawMath.poissonDistribution(match.getPAS(), match.getPHS(), match.getAwayTeam(), match.getHomeTeam());
                 drawMath.theProOfResultWithPo(match);
-                System.out.println(match.getResult());
+                System.out.println("The result of this match is: " + match.getResult());
                 System.out.println("------------------------------------------------------------------------------------------------");
             } else {
                 drawMath.skellamDistribution(match.getPHS(), match.getPAS(), match.getHomeTeam(), match.getAwayTeam());
@@ -68,27 +67,35 @@ public class RankingSystem {
             }
         }
         ArrayList<Team> finalyRank = futureMatchDirectory.addPointOfFutureMatch(rankingResult, futureMatch);
-        updateTimes(futureMatch,teamDirectory);
-        finalyRank = sortHelper.calRanking(finalyRank);
+        updateTimes(futureMatch, teamDirectory);
+        ArrayList<Team> finalRankWithELO = calTeamELOPoint(futureMatch, finalyRank);
+        finalyRank = sortHelper.calRanking(finalRankWithELO);
         System.out.println("The final rank result sorted by EPL point");
         for (int j = 0; j < finalyRank.size(); j++) {
             System.out.println(finalyRank.get(j));
         }
         System.out.println("------------------------------------------------------------------------------------------------");
         System.out.println("The final rank result sort by ELO point");
-        ArrayList<Team> finalRankWithELO = calTeamELOPoint(futureMatch,finalyRank);
         finalRankWithELO = sortHelper.calRankWithELO(finalRankWithELO);
         for (int j = 0; j < finalRankWithELO.size(); j++) {
             System.out.println(finalRankWithELO.get(j));
         }
         try {
-            objects2Csv(finalyRank,"main/resources/Final Rank.csv");
+            objects2Csv(finalyRank, "main/resources/Final Rank.csv");
         } catch (IOException e) {
             e.printStackTrace();
         }
-        table = getFinalTable(matchDirectory.matchArrayList,futureMatch,rankingResult);
-        System.out.println(table);
-        write(table,rankingResult);
+        Map<String, String> table = getFinalTable(matchDirectory.matchArrayList, futureMatch, rankingResult);
+        for (String s : table.keySet()) {
+            System.out.println(s);
+        }
+        int wee = 0;
+        for (String s : table.values()) {
+            System.out.println(s + "]]]]]]]]]]]]]]]]]]]]]]]]]");
+            wee++;
+        }
+        System.out.println(wee);
+        write(table, rankingResult);
     }
 
     public static void initializaData(MatchDirectory matchDirectory, TeamDirectory teamDirectory) {
@@ -98,12 +105,12 @@ public class RankingSystem {
         dataReader.teamInformation(teamDirectory);
     }
 
-    private static void updateTimes(ArrayList<Match> futureMatch, TeamDirectory teamDirectory){
-        for(Match match: futureMatch){
-            for (Team team: teamDirectory.getTeamArrayList()){
-                if (team.getName().equals(match.getAwayTeam())){
+    private static void updateTimes(ArrayList<Match> futureMatch, TeamDirectory teamDirectory) {
+        for (Match match : futureMatch) {
+            for (Team team : teamDirectory.getTeamArrayList()) {
+                if (team.getName().equals(match.getAwayTeam())) {
                     team.updateTimes();
-                }else if(team.getName().equals(match.getHomeTeam())){
+                } else if (team.getName().equals(match.getHomeTeam())) {
                     team.updateTimes();
                 }
             }
@@ -181,50 +188,26 @@ public class RankingSystem {
         return teams;
     }
 
-    public static int[][] getFinalTable(ArrayList<Match> pastMatchs, ArrayList<Match> futureMatchs, ArrayList<Team> teams){
-        int[][] ints = {
-                       {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20},
-                       {1, 2, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20},
-                       {2, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20},
-                       {3, 1, 2, 2, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20},
-                       {4, 1, 2, 3, 2, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20},
-                       {5, 1, 2, 3, 4, 2, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20},
-                       {6, 1, 2, 3, 4, 5, 2, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20},
-                       {7, 1, 2, 3, 4, 5, 6, 2, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20},
-                       {8, 1, 2, 3, 4, 5, 6, 7, 2, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20},
-                       {9, 1, 2, 3, 4, 5, 6, 7, 8, 2, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20},
-                       {10, 1, 2, 3, 4, 5, 6, 7, 8, 9, 2, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20},
-                       {11, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 2, 12, 13, 14, 15, 16, 17, 18, 19, 20},
-                       {12, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 2, 13, 14, 15, 16, 17, 18, 19, 20},
-                       {13, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 2, 14, 15, 16, 17, 18, 19, 20},
-                       {14, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 2, 15, 16, 17, 18, 19, 20},
-                       {15, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 2, 16, 17, 18, 19, 20},
-                       {16, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 2, 17, 18, 19, 20},
-                       {17, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 2, 18, 19, 20},
-                       {18, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 2, 19, 20},
-                       {19, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 2, 20},
-                       {20, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 2},
-               };
-
+    public static Map<String, String> getFinalTable(ArrayList<Match> pastMatchs, ArrayList<Match> futureMatchs, ArrayList<Team> teams) {
+        Map<String, String> result = new HashMap<>();
         pastMatchs.addAll(futureMatchs);
-        for(Match match: pastMatchs){
-            for (Team team : teams){
-                if (team.getName().equals(match.getHomeTeam())){
-                    for (Team team1:teams){
-                        if (team1.getName().equals(match.getAwayTeam())){
-                            if (match.getResult().equals("H")) {
-                                ints[team.getTeamID()+1][team1.getTeamID()+1] = 1;
-                            }else if (match.getResult().equals("D")) {
-                                ints[team.getTeamID()+1][team1.getTeamID()+1] = 0;
-                            }else{
-                                ints[team.getTeamID()+1][team1.getTeamID()+1] = -1;
-                            }
+        System.out.println(pastMatchs.size());
+        for (Team team : teams) {
+            String r = new String();
+            for (Team team1 : teams) {
+                if (!team.getName().equals(team1.getName())) {
+                    for (Match match : pastMatchs) {
+                        if (team.getName().equals(match.getHomeTeam()) && team1.getName().equals(match.getAwayTeam())) {
+                            r += team1.getName() + "=" + match.getResult() + ",";
                         }
                     }
+                } else {
+                    r += team1.getName() + "=" + "N/A,";
                 }
             }
+            result.put(team.getName(), r);
         }
-        return ints;
+        return result;
     }
 
 
@@ -232,11 +215,11 @@ public class RankingSystem {
      * 写入CSV文件
      */
 
-    public static void objects2Csv(ArrayList<Team> objects,String path)    throws IOException {
+    public static void objects2Csv(ArrayList<Team> objects, String path) throws IOException {
         File file = new File(path);
         try (OutputStream out = new FileOutputStream(file);
 
-             OutputStreamWriter writer = new OutputStreamWriter((out),"GBK")) {
+             OutputStreamWriter writer = new OutputStreamWriter((out), "GBK")) {
 
             ArrayList<String> list = new ArrayList<String>();
             int rowNumCount = objects.size();
@@ -257,14 +240,14 @@ public class RankingSystem {
                 for (int cellNum = 0; cellNum < entrys.length; cellNum++) {
                     String entry = entrys[cellNum];
                     String[] titleAndData = entry.split("=");
-                    if(!titleStatusFlag){
+                    if (!titleStatusFlag) {
                         // title
-                        title += titleAndData[0]+",";
+                        title += titleAndData[0] + ",";
                     }
                     // data
                     data += titleAndData[1] + ",";
                 }
-                titleStatusFlag = true ;
+                titleStatusFlag = true;
                 list.add(data);
             }
 
@@ -280,34 +263,40 @@ public class RankingSystem {
         }
     }
 
-    public static void write(int[][] ints,ArrayList<Team> teams){
+    public static void write(Map<String, String> ints, ArrayList<Team> teams) {
         String path = "main/resources/Final Table.csv";
+        ArrayList<String> re = new ArrayList<>();
         try (OutputStream out = new FileOutputStream(path);
 
-             OutputStreamWriter writer = new OutputStreamWriter((out),"GBK")) {
+             OutputStreamWriter writer = new OutputStreamWriter((out), "GBK")) {
 
             ArrayList<String> list = new ArrayList<String>();
-            int rowNumCount = ints.length;
-
+            int rowNumCount = ints.size() + 1;
             // 获取title
-            String title = "";
+            String title = " ,";
+            boolean titleStatusFlag = false;
             // 循环行Row
-            for (int rowNum = 0; rowNum < rowNumCount; rowNum++) {
+            for (String s : ints.keySet()) {
 
                 // 获取传来的对象数据
-                String o = ints[rowNum].toString();
+                String o = ints.get(s);
                 // 获取 对象属性数据对
                 String[] entrys = o.split(",");
 
                 // 创建对应的csv 数据对象
-                String data = "";
+                String data = s+",";
                 // 获取当前的 行 Cell 的所有列 Row 数据
                 for (int cellNum = 0; cellNum < entrys.length; cellNum++) {
                     String entry = entrys[cellNum];
+                    String[] titleAndData = entry.split("=");
+                    if (!titleStatusFlag) {
+                        // title
+                        title += titleAndData[0] + ",";
+                    }
                     // data
-                    System.out.println(String.valueOf(ints[rowNum]));
-                    data += entry.split(",");
+                    data += titleAndData[1] + ",";
                 }
+                titleStatusFlag = true;
                 list.add(data);
             }
 
