@@ -100,7 +100,7 @@ public class RankingSystem {
         }
         System.out.println("------------------------------------------------------------------------------------------------");
         try {
-            objects2Csv(finalyRank, "main/resources/Rank result of EPL Principle/Final Rank.csv");
+            objectsCsv(finalyRank, "main/resources/Rank result of EPL Principle/Final Rank.csv");
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -230,6 +230,54 @@ public class RankingSystem {
      */
 
     public static void objects2Csv(ArrayList<Team> objects, String path) throws IOException {
+        File file = new File(path);
+        try (OutputStream out = new FileOutputStream(file);
+
+             OutputStreamWriter writer = new OutputStreamWriter((out), "GBK")) {
+
+            ArrayList<String> list = new ArrayList<String>();
+            int rowNumCount = objects.size();
+            // 获取title
+            String title = "";
+            boolean titleStatusFlag = false;
+            // 循环行Row
+            for (int rowNum = 0; rowNum < rowNumCount; rowNum++) {
+
+                // 获取传来的对象数据
+                String o = objects.get(rowNum).toString();
+                // 获取 对象属性数据对
+                String[] entrys = o.split(",");
+
+                // 创建对应的csv 数据对象
+                String data = "";
+                // 获取当前的 行 Cell 的所有列 Row 数据
+                for (int cellNum = 0; cellNum < entrys.length; cellNum++) {
+                    String entry = entrys[cellNum];
+                    String[] titleAndData = entry.split("=");
+                    if (!titleStatusFlag) {
+                        // title
+                        title += titleAndData[0] + ",";
+                    }
+                    // data
+                    data += titleAndData[1] + ",";
+                }
+                titleStatusFlag = true;
+                list.add(data);
+            }
+
+            writer.append(title + "\n");
+            for (String string : list) {
+                writer.append(string + "\n");
+            }
+
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void objectsCsv(ArrayList<Team> objects, String path) throws IOException {
         File file = new File(path);
         try (OutputStream out = new FileOutputStream(file);
 
