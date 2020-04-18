@@ -9,14 +9,18 @@ public class sortHelper<X extends Comparable<X>>{
      */
 
     public ArrayList<Team> calRanking(ArrayList<Team> list){
-        for (int i = 0; i < list.size();i++){
+        ArrayList<Team> list1 = new ArrayList<>();
+        for(Team team:list){
+            list1.add(team);
+        }
+        for (int i = 0; i < list1.size();i++){
             for(int j = i; j > 0; j-- ){
-                if (list.get(j).getPoint() > list.get(j-1).getPoint()){
-                    swap(list,j,j-1);
+                if (list1.get(j).getPoint() > list1.get(j-1).getPoint()){
+                    swap(list1,j,j-1);
                 }
             }
         }
-        return list;
+        return list1;
     }
 
     public ArrayList<Team> calRankWithELO(ArrayList<Team> list) {
@@ -30,15 +34,19 @@ public class sortHelper<X extends Comparable<X>>{
 //                }
 //            }
 //        } Shell sort is too complex to run, we change to use selection sort
-        int N = list.size();
+        ArrayList<Team> list1 = new ArrayList<>();
+        for(Team team:list){
+            list1.add(team);
+        }
+        int N = list1.size();
         for (int i = 0; i < N; i++) {
             int max = i;
             for (int j = i + 1; j < N; j++)
-                if (list.get(j).getELOPoint() > list.get(max).getELOPoint()) max = j;
-            swap(list, i, max);
+                if (list1.get(j).getELOPoint() > list1.get(max).getELOPoint()) max = j;
+            swap(list1, i, max);
 
         }
-        return list;
+        return list1;
     }
 
 
